@@ -1,13 +1,33 @@
-# Readme
+# Phormix
+
+a PHP HTML-Forms Checker, Validator, Sanitizer module for Emvicy2 (2.x) PHP Framework: https://github.com/emvicy/Emvicy/tree/2.x
 
 ## Overview
 
-- [1. declare Form Elements](#1)
-  - [1.1 Examples](#1-1) 
-- [2. declare a `formular.yaml`](#2)
-- [3. run Phormix inside of your Controller method](#3)
+- [Installation](#Installation)
+- [Usage](#Usage)
+  - [1. declare Form Elements](#1)
+    - [1.1 Examples](#1-1) 
+  - [2. declare a `formular.yaml`](#2)
+  - [3. run Phormix inside of your Controller method](#3)
 
 ---
+
+## Installation <a id="Installation"></a>
+
+_cd into the modules folder of your `Emvicy` copy; e.g.:_
+~~~bash
+cd /var/www/html/modules/;
+~~~
+
+_clone `Phormix`_
+~~~bash
+git clone --branch 1.x https://github.com/emvicy/Phormix.git Phormix;
+~~~
+
+---
+
+## Usage <a id="Usage"></a>
 
 ### 1. declare Form Elements <a id="1"></a>
 
