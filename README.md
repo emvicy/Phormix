@@ -263,3 +263,18 @@ _`modules/Phormix/templates/phormix/phormix_formular.tpl`_
 ## Demo <a id="Demo"></a>
 
 for a running Demo in your App, call Route `/phormix/` in your Browser.
+
+**Prevent providing any `phormix` routes**
+
+If you do not want any routes added by phormix, add the following lines  
+somewhere to your primary module's routes config, .e.g. `modules/Foo/etc/routing/frontend.php`:
+
+_prevent providing phormix routes_  
+~~~php
+if (false === (false === stristr(\MVC\Request::in()->get_path(), 'phormix')))
+{
+    \MVC\RequestHelper::redirect(sLocation: '/');
+}
+~~~
+
+
