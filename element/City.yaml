@@ -1,0 +1,37 @@
+label: &element.City.label City
+tag: input
+attribute:
+  type: text
+  id: &element.City.attribute.id City
+  name: *element.City.attribute.id
+  value: ''
+  title: *element.City.label
+  placeholder: *element.City.label
+  minLength: &element.City.attribute.minLength 3
+  maxlength: &element.City.attribute.maxlength 50
+  autofocus: false
+  #autocomplete: true
+  required: true
+  disabled: false
+filter:
+  validate:
+    minLength:
+      value: *element.City.attribute.minLength
+      message:
+        fail: Please enter at least %s characters.
+        success: You have successfully made all the necessary information for
+          this purpose.
+    empty:
+      value: false
+      message:
+        fail: This field can not be empty. Please fill in.
+    regex:
+      value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+      message:
+        fail: Your entry includes not authorized characters
+        success: Your entry includes only authorized characters.
+  sanitize:
+    maxlength:
+      value: *element.City.attribute.maxlength
+    regex:
+      value: "/[^\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"

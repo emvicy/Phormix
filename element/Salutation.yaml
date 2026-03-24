@@ -1,0 +1,53 @@
+label: &element.Salutation.label Salutation / Gender
+tag: input
+attribute:
+  type: radio
+  id: &element.Salutation.attribute.id Salutation
+  name: *element.Salutation.attribute.id
+  value: ''
+  title: *element.Salutation.label
+  placeholder: *element.Salutation.label
+  minLength: &element.Salutation.attribute.minLength 2
+  maxlength: &element.Salutation.attribute.maxlength 10
+  autofocus: true
+  #autocomplete: true
+  required: true
+  disabled: false
+filter:
+  validate:
+    minLength:
+      value: *element.Salutation.attribute.minLength
+      message:
+        fail: Please enter at least %s characters.
+        success: You have specified more than the required minimum amount of %s characters.
+    expect:
+      value:
+        - label: Mr
+          value: Mr
+        - label: Mrs
+          value: Mrs
+        - label: unspecific
+          value: unspecific
+      message:
+        fail: Invalid entry.
+        success: You made a valid entry.
+    empty:
+      value: false
+      message:
+        fail: This field can not be empty. Please fill in.
+    regex:
+      value: "/^[\\p{L}\\p{Zs}]+$/u"
+      message:
+        fail: Your entry includes not authorized characters
+        success: Your entry includes only authorized characters.
+  sanitize:
+    maxlength:
+      value: *element.Salutation.attribute.maxlength
+      message:
+        fail: The maximum length is %s characters . The input was reduced accordingly.
+        success: The maximum length of % s characters has not been exceeded.
+    regex:
+      value: "/[^\\p{L}\\p{Zs}]/u"
+      message:
+        fail: Disvalued characters removed.
+        success: The entry must not be cleaned.

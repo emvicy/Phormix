@@ -1,0 +1,21 @@
+label: &element.Description.label Description
+tag: input
+attribute:
+  type: text
+  id: &element.Description.attribute.id Description
+  name: *element.Description.attribute.id
+  value: ''
+  title: *element.Description.label
+  placeholder: *element.Description.label
+  minLength: &element.Description.attribute.minLength 3
+  maxlength: &element.Description.attribute.maxlength 2000
+  autofocus: false
+  #autocomplete: true
+  required: true
+  disabled: false
+filter:
+  sanitize:
+    maxlength:
+      value: *element.Description.attribute.maxlength
+    regex:
+      value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}&,.?!]/u"

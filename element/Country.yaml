@@ -1,0 +1,44 @@
+label: &element.Country.label Country
+tag: select
+attribute:
+  form: *form.id
+  id: &element.Country.attribute.id Country
+  name: *element.Country.attribute.id
+  autofocus: false
+  #autocomplete: false
+  required: true
+  disabled: false
+  multiple: true
+  size: 1 # amount to display
+filter:
+  validate:
+    minLength:
+      value: 2
+      message:
+        fail: Please enter at least %s characters.
+        success: You have successfully made all the necessary information for this purpose.
+    expect:
+      value:
+        - label: Germany
+          value: DE
+        - label: England
+          value: GB
+        - label: Netherlands
+          value: NL
+      message:
+        fail: Invalid entry.
+        success: You made a valid entry.
+    empty:
+      value: false
+      message:
+        fail: This field can not be empty. Please fill in.
+    regex:
+      value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+      message:
+        fail: Your entry includes not authorized characters
+        success: Your entry includes only authorized characters.
+  sanitize:
+    maxlength:
+      value: 2
+    regex:
+      value: "/[^\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"

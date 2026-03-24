@@ -1,0 +1,36 @@
+label: &element.Fax.label Fax
+tag: input
+attribute:
+  type: text
+  id: &element.Fax.attribute.id Fax
+  name: *element.Fax.attribute.id
+  value: ''
+  title: *element.Fax.label
+  placeholder: *element.Fax.label
+  minLength: &element.Fax.attribute.minLength 3
+  maxlength: &element.Fax.attribute.maxlength 25
+  autofocus: false
+  #autocomplete: true
+  required: false
+  disabled: false
+filter:
+  validate:
+    minLength:
+      value: *element.Fax.attribute.minLength
+      message:
+        fail: Please enter at least %s characters.
+        success: You have specified more than the required minimum amount of %s characters.
+    empty:
+      value: false
+      message:
+        fail: This field can not be empty. Please fill in.
+    regex:
+      value: "/^[\\p{Nd}\\p{Zs}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+      message:
+        fail: Your entry includes not authorized characters
+        success: Your entry includes only authorized characters.
+  sanitize:
+    maxlength:
+      value: *element.Fax.attribute.maxlength
+    regex:
+      value: "/[^\\w\\d\\p{Zs}\\p{Nd}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.]/u"

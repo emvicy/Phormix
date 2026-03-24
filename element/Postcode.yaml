@@ -1,0 +1,37 @@
+label: &element.Postcode.label Postcode
+tag: input
+attribute:
+  type: text
+  id: &element.Postcode.attribute.id Postcode
+  name: *element.Postcode.attribute.id
+  value: ''
+  title: *element.Postcode.label
+  placeholder: *element.Postcode.label
+  minLength: &element.Postcode.attribute.minLength 3
+  maxlength: &element.Postcode.attribute.maxlength 5
+  autofocus: false
+  #autocomplete: true
+  required: true
+  disabled: false
+filter:
+  validate:
+    minLength:
+      value: *element.Postcode.attribute.minLength
+      message:
+        fail: Please enter at least %s characters.
+        success: You have successfully made all the necessary information for
+          this purpose.
+    empty:
+      value: false
+      message:
+        fail: This field can not be empty. Please fill in.
+    regex:
+      value: "/^[\\p{L}\\p{Zs}\\p{Nd}.#]+$/u"
+      message:
+        fail: Your entry includes not authorized characters
+        success: Your entry includes only authorized characters.
+  sanitize:
+    maxlength:
+      value: *element.Postcode.attribute.maxlength
+    regex:
+      value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}.#]/u"

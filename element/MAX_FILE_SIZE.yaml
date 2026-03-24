@@ -1,0 +1,7 @@
+label: MAX_FILE_SIZE
+tag: input
+attribute:
+  type: hidden
+  name: MAX_FILE_SIZE
+  value: '10485760'
+  required: true

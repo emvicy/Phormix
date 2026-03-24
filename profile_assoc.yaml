@@ -1,0 +1,564 @@
+form:
+  id: &form.id Profile
+  name: Profile
+  action: ""
+  method: post
+#  enctype: ''
+element:
+  MAX_FILE_SIZE:
+    label: &element.MAX_FILE_SIZE.label MAX_FILE_SIZE
+    tag: input
+    attribute:
+      type: hidden
+      name: *element.MAX_FILE_SIZE.label
+      value: '10485760' # 10MB
+      required: true
+  Salutation:
+    label: &element.Salutation.label Salutation / Gender
+    tag: input
+    attribute:
+      type: radios
+      id: &element.Salutation.attribute.id Salutation
+      name: *element.Salutation.attribute.id
+      value: ''
+      title: *element.Salutation.label
+      placeholder: *element.Salutation.label
+      minLength: &element.Salutation.attribute.minLength 2
+      maxlength: &element.Salutation.attribute.maxlength 10
+      autofocus: true
+      #autocomplete: true
+      required: true
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Salutation.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have specified more than the required minimum amount of %s characters.
+        expect:
+          value:
+            - label: Mr
+              value: Mr
+            - label: Mrs
+              value: Mrs
+            - label: unspecific
+              value: unspecific
+          message:
+            fail: Invalid entry.
+            success: You made a valid entry.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Salutation.attribute.maxlength
+          message:
+            fail: The maximum length is %s characters . The input was reduced accordingly.
+            success: The maximum length of % s characters has not been exceeded.
+        regex:
+          value: "/[^\\p{L}\\p{Zs}]/u"
+          message:
+            fail: Disvalued characters removed.
+            success: The entry must not be cleaned.
+  Firstname:
+    label: &element.Firstname.label Firstname
+    tag: input
+    attribute:
+      type: text
+      id: &element.Firstname.attribute.id Firstname
+      name: *element.Firstname.attribute.id
+      value: ''
+      title: *element.Firstname.label
+      placeholder: *element.Firstname.label
+      minLength: &element.Firstname.attribute.minLength 3
+      maxlength: &element.Firstname.attribute.maxlength 50
+      autofocus: false
+      #autocomplete: true
+      required: false
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Firstname.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have specified more than the required minimum amount of %s characters.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Firstname.attribute.maxlength
+          message:
+            fail: The maximum length is %s characters. The input was reduced accordingly.
+        regex:
+          value: "/[^\\p{L}\\p{Zs}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.]/u"
+          message:
+            fail: Disvalued characters removed.
+  Surname:
+    label:  &element.Surname.label Surname
+    tag: input
+    attribute:
+      type: text
+      id: &element.Surname.attribute.id Surname
+      name: *element.Surname.attribute.id
+      value: ''
+      title: *element.Surname.label
+      placeholder: *element.Surname.label
+      minLength: &element.Surname.attribute.minLength 3
+      maxlength: &element.Surname.attribute.maxlength 50
+      autofocus: true
+      #autocomplete: true
+      required: true
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Surname.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have specified more than the required minimum amount of %s
+              characters.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Surname.attribute.maxlength
+        regex:
+          value: "/[^\\p{L}\\p{Zs}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+  Company:
+    label: &element.Company.label Company
+    tag: input
+    attribute:
+      type: text
+      id: &element.Company.attribute.id Company
+      name: *element.Company.attribute.id
+      value: ''
+      title: *element.Company.label
+      placeholder: *element.Company.label
+      minLength: &element.Company.attribute.minLength 3
+      maxlength: &element.Company.attribute.maxlength 50
+      autofocus: false
+      #autocomplete: true
+      required: false
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Company.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have specified more than the required minimum amount of %s
+              characters.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,?!&]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Company.attribute.maxlength
+        regex:
+          value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,?!&]/u"
+  Street:
+    label: &element.Street.label Street / Nr
+    tag: input
+    attribute:
+      type: text
+      id: &element.Street.attribute.id Street
+      name: *element.Street.attribute.id
+      value: ''
+      title: *element.Street.label
+      placeholder: *element.Street.label
+      minLength: &element.Street.attribute.minLength 3
+      maxlength: &element.Street.attribute.maxlength 50
+      autofocus: false
+      #autocomplete: true
+      required: true
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Street.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have successfully made all the necessary information for
+              this purpose.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Street.attribute.maxlength
+        regex:
+          value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+  Postcode:
+    label: &element.Postcode.label Postcode
+    tag: input
+    attribute:
+      type: text
+      id: &element.Postcode.attribute.id Postcode
+      name: *element.Postcode.attribute.id
+      value: ''
+      title: *element.Postcode.label
+      placeholder: *element.Postcode.label
+      minLength: &element.Postcode.attribute.minLength 3
+      maxlength: &element.Postcode.attribute.maxlength 5
+      autofocus: false
+      #autocomplete: true
+      required: true
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Postcode.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have successfully made all the necessary information for
+              this purpose.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}\\p{Nd}.#]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Postcode.attribute.maxlength
+        regex:
+          value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}.#]/u"
+  City:
+    label: &element.City.label City
+    tag: input
+    attribute:
+      type: text
+      id: &element.City.attribute.id City
+      name: *element.City.attribute.id
+      value: ''
+      title: *element.City.label
+      placeholder: *element.City.label
+      minLength: &element.City.attribute.minLength 3
+      maxlength: &element.City.attribute.maxlength 50
+      autofocus: false
+      #autocomplete: true
+      required: true
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.City.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have successfully made all the necessary information for
+              this purpose.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.City.attribute.maxlength
+        regex:
+          value: "/[^\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+  State:
+    label: &element.State.label State
+    tag: input
+    attribute:
+      type: text
+      id: &element.State.attribute.id State
+      name: *element.State.attribute.id
+      value: ''
+      title: *element.State.label
+      placeholder: *element.State.label
+      minLength: &element.State.attribute.minLength 3
+      maxlength: &element.State.attribute.maxlength 50
+      autofocus: false
+      #autocomplete: true
+      required: false
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.State.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have successfully made all the necessary information for
+              this purpose.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.State.attribute.maxlength
+        regex:
+          value: "/[^\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+  #  - label: &element.Country.label Country
+  #    tag: select
+  #    attribute:
+  #      form: *form.id
+  #      id: &element.Country.attribute.id Country
+  #      name: *element.Country.attribute.id
+  #      autofocus: false
+  #      #autocomplete: false
+  #      required: true
+  #      disabled: false
+  #      multiple: true
+  #      size: 1 # amount to display
+  #    filter:
+  #      validate:
+  #        minLength:
+  #          value: 2
+  #          message:
+  #            fail: Please enter at least %s characters.
+  #            success: You have successfully made all the necessary information for this purpose.
+  #        expect:
+  #          value:
+  #            - label: Germany
+  #              value: DE
+  #            - label: England
+  #              value: GB
+  #            - label: Netherlands
+  #              value: NL
+  #          message:
+  #            fail: Invalid entry.
+  #            success: You made a valid entry.
+  #        empty:
+  #          value: false
+  #          message:
+  #            fail: This field can not be empty. Please fill in.
+  #        regex:
+  #          value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+  #          message:
+  #            fail: Your entry includes not authorized characters
+  #            success: Your entry includes only authorized characters.
+  #      sanitize:
+  #        maxlength:
+  #          value: 2
+  #        regex:
+  #          value: "/[^\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+  Telephone:
+    label: &element.Telephone.label Telephone
+    tag: input
+    attribute:
+      type: text
+      id: &element.Telephone.attribute.id Telephone
+      name: *element.Telephone.attribute.id
+      value: ''
+      title: *element.Telephone.label
+      placeholder: *element.Telephone.label
+      minLength: &element.Telephone.attribute.minLength 1
+      maxlength: &element.Telephone.attribute.maxlength 25
+      autofocus: false
+      #autocomplete: true
+      required: false
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Telephone.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have specified more than the required minimum amount of %s
+              characters.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{Nd}\\p{Zs}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Telephone.attribute.maxlength
+        regex:
+          value: "/[^\\w\\d\\p{Zs}\\p{Nd}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+  Fax:
+    label: &element.Fax.label Fax
+    tag: input
+    attribute:
+      type: text
+      id: &element.Fax.attribute.id Fax
+      name: *element.Fax.attribute.id
+      value: ''
+      title: *element.Fax.label
+      placeholder: *element.Fax.label
+      minLength: &element.Fax.attribute.minLength 3
+      maxlength: &element.Fax.attribute.maxlength 25
+      autofocus: false
+      #autocomplete: true
+      required: false
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Fax.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have specified more than the required minimum amount of %s characters.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{Nd}\\p{Zs}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Fax.attribute.maxlength
+        regex:
+          value: "/[^\\w\\d\\p{Zs}\\p{Nd}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.]/u"
+  Mobile:
+    label: &element.Mobile.label Mobile
+    tag: input
+    attribute:
+      type: text
+      id: &element.Mobile.attribute.id Mobile
+      name: *element.Mobile.attribute.id
+      value: ''
+      title: *element.Mobile.label
+      placeholder: *element.Mobile.label
+      minLength: &element.Mobile.attribute.minLength 1
+      maxlength: &element.Mobile.attribute.maxlength 25
+      autofocus: false
+      #autocomplete: true
+      required: false
+      disabled: false
+    filter:
+      validate:
+        minLength:
+          value: *element.Mobile.attribute.minLength
+          message:
+            fail: Please enter at least %s characters.
+            success: You have specified more than the required minimum amount of %s
+              characters.
+        empty:
+          value: false
+          message:
+            fail: This field can not be empty. Please fill in.
+        regex:
+          value: "/^[\\p{Nd}\\p{Zs}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+          message:
+            fail: Your entry includes not authorized characters
+            success: Your entry includes only authorized characters.
+      sanitize:
+        maxlength:
+          value: *element.Mobile.attribute.maxlength
+        regex:
+          value: "/[^\\w\\d\\p{Zs}\\p{Nd}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+  Email:
+    label: &element.Email.label E-mail address
+    tag: input
+    attribute:
+      type: text
+      id: &element.Email.attribute.id Email
+      name: *element.Email.attribute.id
+      value: ''
+      title: 'E-mail address of the form: example@example.de'
+      placeholder: *element.Email.label
+      minLength: &element.Email.attribute.minLength 5
+      maxlength: &element.Email.attribute.maxlength 255
+      autofocus: false
+      #autocomplete: true
+      required: true
+      disabled: false
+    filter:
+      validate:
+        email:
+          value:
+            checkMX: true
+            checkUserExists: false
+          message:
+            fail: The given e-mail address is not valid.
+        empty:
+          value: false
+      sanitize:
+        email:
+          value: true
+  Description:
+    label: &element.Description.label Description
+    tag: input
+    attribute:
+      type: text
+      id: &element.Description.attribute.id Description
+      name: *element.Description.attribute.id
+      value: ''
+      title: *element.Description.label
+      placeholder: *element.Description.label
+      minLength: &element.Description.attribute.minLength 3
+      maxlength: &element.Description.attribute.maxlength 2000
+      autofocus: false
+      #autocomplete: true
+      required: true
+      disabled: false
+    filter:
+      sanitize:
+        maxlength:
+          value: *element.Description.attribute.maxlength
+        regex:
+          value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}&,.?!]/u"
+  Message:
+    label: &element.Message.label Message
+    tag: textarea
+    attribute:
+      type: text
+      rows: 3
+      cols: 3
+      id: &element.Message.attribute.id Message
+      name: *element.Message.attribute.id
+      value: ''
+      title: *element.Message.label
+      placeholder: *element.Message.label
+      minLength: &element.Message.attribute.minLength 3
+      maxlength: &element.Message.attribute.maxlength 2000
+      autofocus: false
+      #autocomplete: true
+      required: true
+      disabled: false
