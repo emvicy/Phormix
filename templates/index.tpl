@@ -1,12 +1,12 @@
 <!--phormix.tpl--><!doctype html>{* @see https://getbootstrap.com/docs/5.3/getting-started/introduction/ *}
 <html lang="en">
     <head>
-        {include file="Frontend/layout/_head.tpl"}
+        {include file="_head.tpl"}
     </head>
     <body>
 
         <!------------------------------------------------------------------------------------------------------------->
-        {include file="Frontend/layout/menu.tpl"}
+        {include file="menu.tpl"}
         <!------------------------------------------------------------------------------------------------------------->
 
         {* @see https://getbootstrap.com/docs/5.3/examples/cheatsheet/ *}
@@ -40,13 +40,13 @@
         </div>
 
         <!------------------------------------------------------------------------------------------------------------->
-        {include file="Frontend/layout/footer.tpl"}
-        {include file="Frontend/content/_noscript.tpl"}
-        {include file="Frontend/content/_cookieConsent.tpl"}
+        {include file="footer.tpl"}
+        {include file="_noscript.tpl"}
+        {include file="_cookieConsent.tpl"}
         <!------------------------------------------------------------------------------------------------------------->
 
         <!------------------------------------------------------------------------------------------------------------->
-        {include file="Frontend/layout/_script.tpl"}
+        {include file="_script.tpl"}
         <!------------------------------------------------------------------------------------------------------------->
     </body>
 </html>
