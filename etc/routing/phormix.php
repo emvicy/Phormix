@@ -45,9 +45,9 @@ $oDTRoutingAdditional->set_sContent('phormix/phormix_formular.tpl');
     sTag: 'phormix_profile',
 );
 
-\MVC\Route::MIX(['GET', 'POST'],
-    sPath: '/phormix/chain',
-    sClassMethod: '\Phormix\Controller\Index::chain',
-    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Chain"'),
-    sTag: 'phormix_chain',
-);
+//\MVC\Route::MIX(['GET', 'POST'],
+//    sPath: '/phormix/chain',
+//    sClassMethod: '\Phormix\Controller\Index::chain',
+//    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Chain"'),
+//    sTag: 'phormix_chain',
+//);
