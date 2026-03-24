@@ -262,19 +262,17 @@ _`modules/Phormix/templates/phormix/phormix_formular.tpl`_
 
 ## Demo <a id="Demo"></a>
 
-for a running Demo in your App, call Route `/phormix/` in your Browser.
+for a running Demo in your App, add the phormix routing folder by adding    
+the following lines to your primary module config, .e.g.: `modules/Foo/etc/config/_mvc.php`.
 
-**Prevent providing any `phormix` routes**
-
-If you do not want any routes added by phormix, add the following lines  
-somewhere to your primary module's routes config, .e.g. `modules/Foo/etc/routing/frontend.php`:
-
-_prevent providing phormix routes_  
+_`modules/Foo/etc/config/_mvc.php`_  
 ~~~php
-if (false === (false === stristr(\MVC\Request::in()->get_path(), 'phormix')))
-{
-    \MVC\RequestHelper::redirect(sLocation: '/');
-}
+#-----------------------------------------------------------------------------------------------------------------------
+# Phormix
+
+// add Phormix routing dir
+$aConfig['MVC_ROUTING_DIR'][] = realpath(__DIR__ . '/../../../') . '/Phormix/etc/routing';
 ~~~
+- adjust the realpath if necessary
 
-
+after that you can call the Route `/phormix/` in your Browser.
