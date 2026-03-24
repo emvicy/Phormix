@@ -20,11 +20,14 @@
                 <p class="fs-4">
                     {* @see https://fontawesome.com/icons/php?f=brands&s=solid *}
                     a Formular Module for <img src="/favicon-32x32.png" style="border: none;margin-top: 5px;margin-right: 2px;"><b>Emvicy</b>, PHP <i class="fa-brands fa-php"></i> MVC Framework
+                    <a class="btn btn-sm btn-outline-primary btn-lg" href="https://emvicy.com/" role="button" target="_blank">
+                        <b>Emvicy</b> Documentation
+                    </a>
                     <br>
                 </p>
                 <p>
-                    <a class="btn btn-primary btn-lg" href="https://emvicy.com/" role="button" target="_blank">
-                        see Documentation
+                    <a class="btn btn-primary btn-lg" href="https://github.com/emvicy/Phormix" role="button" target="_blank">
+                        Phormix Documentation
                     </a>
                 </p>
             </div>
