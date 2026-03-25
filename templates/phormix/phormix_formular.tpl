@@ -117,7 +117,7 @@ Bootstrap
         {foreach item=element from=$oPhormix->aConfig.element}
             <div class="mb-3">
                 {if 'input' === $element.tag}
-                    {if 'input_captcha' === $element.attribute['data-element']}
+                    {if true === isset($element.attribute['data-element']) && 'input_captcha' === ($element.attribute['data-element'])}
                         {include file="phormix/phormix_input_captcha.tpl"}
                     {elseif 'checkbox' === $element.attribute.type}
                         {include file="phormix/phormix_input_checkbox.tpl"}
