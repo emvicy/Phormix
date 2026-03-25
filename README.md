@@ -276,3 +276,14 @@ $aConfig['MVC_ROUTING_DIR'][] = realpath(__DIR__ . '/../../../') . '/Phormix/etc
 - adjust the realpath if necessary
 
 after that you can call the Route `/phormix/` in your Browser.
+
+---
+
+## License
+
+**Font used for Captcha** 
+
+- "Educational Gothic V2" (EducationalGothic-Regular.otf)
+  - Copyright © XYZ Co. Inc.
+  - Version 1.2.3.4
+  - License: GNU General Public License v3.0

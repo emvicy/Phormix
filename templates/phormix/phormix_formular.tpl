@@ -1,4 +1,16 @@
-
+<style>
+    {literal}
+    input:invalid{
+        border: 1px solid red;
+    }
+    input:valid{
+        /*border: none;*/
+    }
+    input[required]{
+        background-color: whitesmoke;
+    }
+    {/literal}
+</style>
 <!--
 Bootstrap
 @see https://getbootstrap.com/docs/5.3/forms/overview/
@@ -50,7 +62,7 @@ Bootstrap
     <!--error-->
     <ul class="feedback-message error-message">
         {foreach key=sKey item=sItem from=$oPhormix->getErrorArray()}
-            {if !is_array($sItem)}<li>{$sItem|escape}</li>{/if}
+            {if !is_array($sItem)}<li class="alert alert-danger">{$sItem|escape}</li>{/if}
         {/foreach}
     </ul>
     <!--/error-->
@@ -60,14 +72,13 @@ Bootstrap
     <!--missing-->
     <ul class="feedback-message error-message">
         {foreach key=sKey item=sItem from=$oPhormix->getMissingArray()}
-            <li>
+            <li class="alert alert-warning">
                 Missing: "{$sItem.label|escape}"
             </li>
         {/foreach}
     </ul>
     <!--/missing-->
 {/if}
-
 
 {*{if !empty($aMessage)}*}
 {*    <ul class="feedback-message">*}
@@ -99,12 +110,16 @@ Bootstrap
 <!--form-->
 {if false === $oPhormix->bSuccess}
     <form {$oPhormix->getMarkupFormAttributes()}>
+
         {$oPhormix->getMarkupFormIdentifier()}
         {$oPhormix->getMarkupTicket()}
+
         {foreach item=element from=$oPhormix->aConfig.element}
             <div class="mb-3">
                 {if 'input' === $element.tag}
-                    {if 'checkbox' === $element.attribute.type}
+                    {if 'input_captcha' === $element.attribute['data-element']}
+                        {include file="phormix/phormix_input_captcha.tpl"}
+                    {elseif 'checkbox' === $element.attribute.type}
                         {include file="phormix/phormix_input_checkbox.tpl"}
                     {elseif 'radio' === $element.attribute.type}
                         {include file="phormix/phormix_input_radio.tpl"}

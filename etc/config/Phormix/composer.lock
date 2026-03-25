@@ -1,0 +1,64 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c5aebc94d92e25e182d2bbb8667abf5c",
+    "packages": [
+        {
+            "name": "gueff/phimcap",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gueff/phimcap.git",
+                "reference": "3440668fe395553e3c40694cc544c35fb62075cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gueff/phimcap/zipball/3440668fe395553e3c40694cc544c35fb62075cb",
+                "reference": "3440668fe395553e3c40694cc544c35fb62075cb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Phimcap": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Guido K.B.W. Ueffing"
+                }
+            ],
+            "description": "phimcap provides a captcha image you could use in your own html forms.",
+            "keywords": [
+                "captcha",
+                "image",
+                "phimcap",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/gueff/phimcap/issues",
+                "source": "https://github.com/gueff/phimcap/tree/1.0.0"
+            },
+            "time": "2023-05-07T16:13:15+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}

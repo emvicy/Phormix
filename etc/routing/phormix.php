@@ -1,13 +1,5 @@
 <?php
 
-/*
- * modify this Datatype `DTRoutingAdditional` to your needs in:
- *      `modules/Phormix/etc/config/Phormix/config/_dataType.php`
- * create the Datatype class finally on cli:
- *      `php emvicy datatype`
- */
-
-
 // template
 $oDTRoutingAdditional = \MVC\DataType\DTRoutingAdditional::create()
     ->set_sTitle('Phormix')
@@ -26,9 +18,10 @@ $oDTRoutingAdditional = \MVC\DataType\DTRoutingAdditional::create()
         '/Emvicy/scripts/Emvicy.min.js',
     ));
 
-/*
- * Routes
- */
+// captcha image
+\MVC\Route::GET('/captcha/{sCaptchaId}/','\Phormix\Controller\Index::captcha');
+
+// start
 \MVC\Route::MIX(['GET', 'POST'],
     sPath: '/phormix/',
     sClassMethod: '\Phormix\Controller\Index::index',
@@ -36,18 +29,18 @@ $oDTRoutingAdditional = \MVC\DataType\DTRoutingAdditional::create()
     sTag: 'phormix',
 );
 
-$oDTRoutingAdditional->set_sContent('phormix/phormix_formular.tpl');
-
+// formular "Profile"
 \MVC\Route::MIX(['GET', 'POST'],
     sPath: '/phormix/profile',
-    sClassMethod: '\Phormix\Controller\Index::profile',
-    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Profile"'),
+    sClassMethod: '\Phormix\Controller\Index::formularProfile',
+    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Profile"')->set_sContent('phormix/phormix_formular.tpl'),
     sTag: 'phormix_profile',
 );
 
+// formular "Chain"
 //\MVC\Route::MIX(['GET', 'POST'],
 //    sPath: '/phormix/chain',
-//    sClassMethod: '\Phormix\Controller\Index::chain',
-//    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Chain"'),
+//    sClassMethod: '\Phormix\Controller\Index::formularChain',
+//    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Chain"')->set_sContent('phormix/phormix_formular.tpl'),
 //    sTag: 'phormix_chain',
 //);

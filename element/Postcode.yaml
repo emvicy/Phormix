@@ -6,8 +6,9 @@ attribute:
   name: *element.Postcode.attribute.id
   value: ''
   title: *element.Postcode.label
+  pattern: "[0-9]{5}"
   placeholder: *element.Postcode.label
-  minLength: &element.Postcode.attribute.minLength 3
+  minLength: &element.Postcode.attribute.minLength 5
   maxlength: &element.Postcode.attribute.maxlength 5
   autofocus: false
   #autocomplete: true

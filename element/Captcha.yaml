@@ -1,0 +1,37 @@
+label: &element.Captcha.label Please enter the Captcha code shown
+tag: input
+attribute:
+  type: text
+  id: &element.Captcha.attribute.id Captcha
+  name: *element.Captcha.attribute.id
+  value: ''
+  title: *element.Captcha.label
+  placeholder: *element.Captcha.attribute.id
+  minLength: &element.Captcha.attribute.minLength 5
+  maxlength: &element.Captcha.attribute.maxlength 5
+  autofocus: false
+  #autocomplete: true
+  required: true
+  disabled: false
+  data-element: input_captcha # this is a hint: treat this element a special input
+filter:
+  validate:
+    minLength:
+      value: *element.Captcha.attribute.minLength
+      message:
+        fail: Please enter at least %s characters.
+        success: You have successfully made all the necessary information for this purpose.
+    empty:
+      value: false
+      message:
+        fail: This field can not be empty. Please fill in.
+    regex:
+      value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+      message:
+        fail: Your entry includes not authorized characters
+        success: Your entry includes only authorized characters.
+    captcha:
+      value: *element.Captcha.attribute.id
+      message:
+        fail: The information you entered does not match the CAPTCHA.
+        success: You have successfully made all the necessary information for this purpose.

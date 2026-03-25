@@ -1,0 +1,8 @@
+{
+  "config": {
+    "autoloader-suffix": "Phormix"
+  },
+  "require": {
+    "gueff/phimcap": "1.0.*"
+  }
+}

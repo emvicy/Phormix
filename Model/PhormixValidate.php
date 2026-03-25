@@ -2,6 +2,8 @@
 
 namespace Phormix\Model;
 
+use MVC\Session;
+
 class PhormixValidate
 {
     /**
@@ -230,4 +232,17 @@ class PhormixValidate
 
         return false;
 	}
+
+    /**
+     * @param mixed  $sFieldValue
+     * @param string $sCaptchaName
+     * @return bool
+     * @throws \ReflectionException
+     */
+    public static function _CAPTCHA(mixed $sFieldValue, string $sCaptchaName) : bool
+    {
+        return (
+            $sFieldValue === Session::is('Phormix')->get($sCaptchaName)
+        );
+    }
 }

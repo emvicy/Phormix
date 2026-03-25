@@ -12,6 +12,7 @@ use MVC\DataType\DTRequestIn;
 use MVC\DataType\DTRoute;
 use MVC\Http\Header;
 use MVC\Media\Type_Application_json;
+use MVC\Session;
 use Phormix\Model\Phormix;
 
 
@@ -63,29 +64,42 @@ class Index extends Controller
     }
 
     /**
+     * delivers a captcha image
+     * @return void
+     * @throws \ReflectionException
+     */
+    public function captcha(DTRequestIn $oDTRequestIn, DTRoute $oDTRoute)
+    {
+        // take identifier from parameter
+        $sCaptchaId = ($oDTRequestIn->get_pathParamArray()['sCaptchaId'] ?? 'Captcha');
+        \Phimcap::image(
+            Session::is('Phormix')->get($sCaptchaId),
+            realpath(__DIR__ . '/../') . '/etc/config/Phormix/config/Educational_Gothic_V2/EducationalGothic-Regular.otf'
+        );
+    }
+
+    /**
      * @param \MVC\DataType\DTRequestIn $oDTRequestIn
      * @param \MVC\DataType\DTRoute     $oDTRoute
      * @return void
      * @throws \ReflectionException
      */
-    public function profile(DTRequestIn $oDTRequestIn, DTRoute $oDTRoute)
+    public function formularProfile(DTRequestIn $oDTRequestIn, DTRoute $oDTRoute)
     {
         $oPhormix = Phormix::init()
             // dir with form elements as "yaml" files
             ->setElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
             // formular config yaml file
-            ->loadConfigYaml(Config::get_MVC_MODULES_DIR() . '/Phormix/formular.yaml')
+            ->loadConfigYaml(Config::get_MVC_MODULES_DIR() . '/Phormix/profile.yaml')
             // set a Validate Class that fits your needs
             ->setValidateClass('\Phormix\Model\PhormixValidate')
+            // run Phormix
             ->run();
-        ;
 
         // show config
-        if (true === isset($_GET['config']))
-        {
-            $this->showConfig($oPhormix);
-        }
+        $this->showConfigOnDemand($oPhormix);
 
+        // Form was successfully sent; Validation succeeded
         if (true === $oPhormix->bSuccess)
         {
             info(
@@ -93,27 +107,35 @@ class Index extends Controller
             );
         }
 
+        // create new captcha text; take identifier from config
+        $sCaptchaId = ($oPhormix->aConfig['element']['Captcha']['attribute']['id'] ?? 'Captcha');
+        Session::is('Phormix')->set($sCaptchaId, \Phimcap::text());
+
         view()->assign('oPhormix', $oPhormix);
         view()->assign('oDTRoute', $oDTRoute);
         view()->autoAssign();
     }
 
     /**
+     * delivers complete, final config as JSON
      * @param \Phormix\Model\Phormix $oPhormix
      * @return void
      */
-    protected function showConfig (Phormix $oPhormix)
+    protected function showConfigOnDemand(Phormix $oPhormix)
     {
-        Type_Application_json::header();
-        echo json_encode($oPhormix->aConfig);
-        exit();
+        if (true === isset($_GET['config']))
+        {
+            Type_Application_json::header();
+            echo json_encode($oPhormix->aConfig);
+            exit();
+        }
     }
 
     /**
      * @throws \ReflectionException
      * @throws \SmartyException
      */
-    public function __destruct ()
+    public function __destruct()
     {
         parent::__destruct();
         view()->render();
