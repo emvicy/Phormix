@@ -1,5 +1,9 @@
 <style>
     {literal}
+    fieldset {
+        border: 1px dotted #CCC;
+        padding: 20px;
+    }
     input 	{font-family:  "Courier New", Courier, monospace;}
     input[required]{
         background-color: #fcfcfc;
@@ -88,9 +92,12 @@ Bootstrap
 {/if}
 
 {if true === $oPhormix->bSuccess}
-    <ul>
-        <li>Thank you for your message.</li>
-    </ul>
+    <div class="alert alert-success">
+        Thank you for submitting the Data.
+    </div>
+
+    <b>Data:</b>
+    {MVC\Strings::ulli($oPhormix->getDataAccepted())}
 {/if}
 <!--/messages-->
 
@@ -99,32 +106,35 @@ Bootstrap
 <!--form-->
 {if false === $oPhormix->bSuccess}
     <form {$oPhormix->getMarkupFormAttributes()}>
+        <fieldset>
+            <legend>{$oPhormix->aConfig.form.name}</legend>
 
-        {$oPhormix->getMarkupFormIdentifier()}
-        {$oPhormix->getMarkupTicket()}
+            {$oPhormix->getMarkupFormIdentifier()}
+            {$oPhormix->getMarkupTicket()}
 
-        {foreach item=element from=$oPhormix->aConfig.element}
-            <div class="mb-3">
-                {if 'input' === $element.tag}
-                    {if 'input_captcha' === $element.attribute['data-element']}
-                        {include file="phormix/phormix_input_captcha.tpl"}
-                    {elseif 'checkbox' === $element.attribute.type}
-                        {include file="phormix/phormix_input_checkbox.tpl"}
-                    {elseif 'radio' === $element.attribute.type}
-                        {include file="phormix/phormix_input_radio.tpl"}
-                    {elseif 'hidden' === $element.attribute.type}
-                        {include file="phormix/phormix_input_hidden.tpl"}
-                    {else}
-                        {include file="phormix/phormix_input_default.tpl"}
+            {foreach item=element from=$oPhormix->aConfig.element}
+                <div class="mb-3">
+                    {if 'input' === $element.tag}
+                        {if 'input_captcha' === $element.attribute['data-element']}
+                            {include file="phormix/phormix_input_captcha.tpl"}
+                        {elseif 'checkbox' === $element.attribute.type}
+                            {include file="phormix/phormix_input_checkbox.tpl"}
+                        {elseif 'radio' === $element.attribute.type}
+                            {include file="phormix/phormix_input_radio.tpl"}
+                        {elseif 'hidden' === $element.attribute.type}
+                            {include file="phormix/phormix_input_hidden.tpl"}
+                        {else}
+                            {include file="phormix/phormix_input_default.tpl"}
+                        {/if}
+                    {elseif 'select' === $element.tag}
+                        {include file="phormix/phormix_select.tpl"}
+                    {elseif 'textarea' === $element.tag}
+                        {include file="phormix/phormix_textarea.tpl"}
                     {/if}
-                {elseif 'select' === $element.tag}
-                    {include file="phormix/phormix_select.tpl"}
-                {elseif 'textarea' === $element.tag}
-                    {include file="phormix/phormix_textarea.tpl"}
-                {/if}
-            </div>
-        {/foreach}
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+                </div>
+            {/foreach}
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+        </fieldset>
     </form>
 {/if}
 <!--/form-->

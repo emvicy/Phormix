@@ -104,9 +104,7 @@ class Index extends Controller
         // Form was successfully sent; Validation succeeded
         if (true === $oPhormix->bSuccess)
         {
-            info(
-                $oPhormix->getDataAccepted()
-            );
+            ;
         }
 
         // create new captcha text; take identifier from config
