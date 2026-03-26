@@ -21,5 +21,6 @@ _phanlistcreate.sh
 /etc/config/Phormix/config/_datatype.php
 /Enum/
 /DataType/
+/profile.yaml
 /profile.yaml.php
 /profile_assoc.yaml

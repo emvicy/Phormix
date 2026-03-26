@@ -10,7 +10,7 @@ attribute:
   minLength: &element.Captcha.attribute.minLength 5
   maxlength: &element.Captcha.attribute.maxlength 5
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: true
   disabled: false
   data-element: input_captcha # this is a hint: treat this element a special input

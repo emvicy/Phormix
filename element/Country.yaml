@@ -5,7 +5,7 @@ attribute:
   id: &element.Country.attribute.id Country
   name: *element.Country.attribute.id
   autofocus: false
-  #autocomplete: false
+  autocomplete: false
   required: true
   disabled: false
   multiple: true

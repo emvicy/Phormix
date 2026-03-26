@@ -1,16 +1,16 @@
 label: &element.Email.label E-mail address
 tag: input
 attribute:
-  type: text
+  type: email
   id: &element.Email.attribute.id Email
   name: *element.Email.attribute.id
   value: ''
-  title: 'E-mail address of the form: example@example.de'
+  title: 'E-mail address of the form: foo@example.de'
   placeholder: *element.Email.label
   minLength: &element.Email.attribute.minLength 5
   maxlength: &element.Email.attribute.maxlength 255
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: true
   disabled: false
 filter:

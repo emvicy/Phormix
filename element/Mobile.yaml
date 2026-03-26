@@ -10,7 +10,7 @@ attribute:
   minLength: &element.Mobile.attribute.minLength 1
   maxlength: &element.Mobile.attribute.maxlength 25
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: false
   disabled: false
 filter:

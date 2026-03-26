@@ -55,7 +55,7 @@ may have:
 
 #### 1.1 Examples <a id="1-1"></a>
 
-_`MAX_FILE_SIZE.yaml`_
+*`MAX_FILE_SIZE.yaml`*  
 ~~~yaml
 label: MAX_FILE_SIZE
 tag: input
@@ -188,7 +188,7 @@ view()->autoAssign();
 
 #### auto-creating a html formular
 
-_`modules/Phormix/templates/phormix/phormix_formular.tpl`_    
+*`modules/Phormix/templates/phormix/phormix_formular.tpl`*      
 ~~~html
 <!--form-->
 {if false === $oPhormix->bSuccess}
@@ -265,7 +265,7 @@ _`modules/Phormix/templates/phormix/phormix_formular.tpl`_
 for a running Demo in your App, add the phormix routing folder by adding    
 the following lines to your primary module config, .e.g.: `modules/Foo/etc/config/_mvc.php`.
 
-_`modules/Foo/etc/config/_mvc.php`_  
+*`modules/Foo/etc/config/_mvc.php`*    
 ~~~php
 #-----------------------------------------------------------------------------------------------------------------------
 # Phormix

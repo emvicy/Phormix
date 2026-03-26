@@ -11,7 +11,7 @@ attribute:
   minLength: &element.Postcode.attribute.minLength 5
   maxlength: &element.Postcode.attribute.maxlength 5
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: true
   disabled: false
 filter:

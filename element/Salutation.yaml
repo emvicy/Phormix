@@ -10,7 +10,7 @@ attribute:
   minLength: &element.Salutation.attribute.minLength 2
   maxlength: &element.Salutation.attribute.maxlength 10
   autofocus: true
-  #autocomplete: true
+  autocomplete: false
   required: true
   disabled: false
 filter:

@@ -10,7 +10,7 @@ attribute:
   minLength: &element.Firstname.attribute.minLength 3
   maxlength: &element.Firstname.attribute.maxlength 50
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: false
   disabled: false
 filter:

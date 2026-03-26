@@ -10,7 +10,7 @@ attribute:
   minLength: &element.Fax.attribute.minLength 3
   maxlength: &element.Fax.attribute.maxlength 25
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: false
   disabled: false
 filter:

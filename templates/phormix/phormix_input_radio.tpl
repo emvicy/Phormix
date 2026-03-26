@@ -12,9 +12,10 @@
                             {$attribute}="{$value}"
                         {/if}
                     {/foreach}
-                    id="{$element.attribute.id}{$data.label}"
+                    id="{$element.attribute.id}{$data.value}"
                     value="{$data.value}"
                     class="form-check-input"
+                    {if $aSent[$element.attribute.name] === $data.value}checked{/if}
             >
             <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
                 {$data.label}

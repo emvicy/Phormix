@@ -10,7 +10,7 @@ attribute:
   minLength: &element.City.attribute.minLength 3
   maxlength: &element.City.attribute.maxlength 50
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: true
   disabled: false
 filter:

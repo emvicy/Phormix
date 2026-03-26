@@ -12,5 +12,5 @@ attribute:
   minLength: &element.Message.attribute.minLength 3
   maxlength: &element.Message.attribute.maxlength 2000
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: true

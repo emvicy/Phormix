@@ -27,15 +27,22 @@
                 </p>
                 <p>
                     <a class="btn btn-primary btn-lg" href="https://github.com/emvicy/Phormix" role="button" target="_blank">
-                        Phormix Documentation
+                        Phormix at github
                     </a>
                 </p>
             </div>
+
             <br>
+
             <!--content-->
-            {if false === empty($oDTRoutingAdditional->get_sContent())}
-                {include file=$oDTRoutingAdditional->get_sContent()}
-            {/if}
+                <!--Readme-->
+                {if isset($sReadme)}{$sReadme}{/if}
+                <!--/Readme-->
+                <!--formular-->
+                {if false === empty($oDTRoutingAdditional->get_sContent())}
+                    {include file=$oDTRoutingAdditional->get_sContent()}
+                {/if}
+                <!--/formular-->
             <!--/content-->
         </div>
 

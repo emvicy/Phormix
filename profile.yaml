@@ -14,13 +14,13 @@ element:
   - Street
   - Postcode
   - City
-  #  - State
-  #  - Country
+#  - State
+#  - Country
   - Telephone
-  #  - Fax
-  #  - Mobile
+#  - Fax
+#  - Mobile
   - Email
-  #  - Description
+#  - Description
   - Message
   - Captcha
 

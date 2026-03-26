@@ -13,6 +13,7 @@ use MVC\DataType\DTRoute;
 use MVC\Http\Header;
 use MVC\Media\Type_Application_json;
 use MVC\Session;
+use MVC\Strings;
 use Phormix\Model\Phormix;
 
 
@@ -60,6 +61,7 @@ class Index extends Controller
      */
     public function index(DTRequestIn $oDTRequestIn, DTRoute $oDTRoute)
     {
+        view()->assign('sReadme', Strings::parsedown(file_get_contents(realpath(__DIR__ . '/../') . '/README.md')));
         view()->autoAssign();
     }
 

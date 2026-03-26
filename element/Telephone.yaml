@@ -10,7 +10,7 @@ attribute:
   minLength: &element.Telephone.attribute.minLength 1
   maxlength: &element.Telephone.attribute.maxlength 25
   autofocus: false
-  #autocomplete: true
+  autocomplete: false
   required: false
   disabled: false
 filter:
