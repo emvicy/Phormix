@@ -17,6 +17,7 @@
                     class="form-check-input"
                     {if $aSent[$element.attribute.name] === $data.value}checked{/if}
             >
+            <a id="{$element.attribute.name}"></a>
             <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
                 {$data.label}
             </label>

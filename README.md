@@ -230,13 +230,17 @@ view()->autoAssign();
 
 ~~~html
 {if false === empty($oPhormix->getErrorArray())}
-    <!--error-->
-    <ul class="feedback-message error-message">
-        {foreach key=sKey item=sItem from=$oPhormix->getErrorArray()}
-            {if !is_array($sItem)}<li>{$sItem|escape}</li>{/if}
-        {/foreach}
-    </ul>
-    <!--/error-->
+  <!--error-->
+  <ul class="list-unstyled">
+      {foreach key=sKey item=sItem from=$oPhormix->getErrorArray()}
+          {if !is_array($sItem)}
+          <li class="alert alert-danger">
+              <a href="#{$sKey}">{$sItem|escape}</a>
+          </li>
+          {/if}
+      {/foreach}
+  </ul>
+  <!--/error-->
 {/if}
 ~~~
 
@@ -246,15 +250,15 @@ view()->autoAssign();
 
 ~~~html
 {if false === empty($oPhormix->getMissingArray())}
-    <!--missing-->
-    <ul class="feedback-message error-message">
-        {foreach key=sKey item=sItem from=$oPhormix->getMissingArray()}
-            <li>
-                Missing: "{$sItem.label|escape}"
-            </li>
-        {/foreach}
-    </ul>
-    <!--/missing-->
+  <!--missing-->
+  <ul class="list-unstyled">
+      {foreach key=sKey item=sItem from=$oPhormix->getMissingArray()}
+      <li class="alert alert-warning">
+          Missing: "{$sItem.label|escape}"
+      </li>
+      {/foreach}
+  </ul>
+  <!--/missing-->
 {/if}
 ~~~
 
@@ -286,4 +290,4 @@ after that you can call the Route `/phormix/` in your Browser.
 - "Educational Gothic V2" (EducationalGothic-Regular.otf)
   - Copyright © XYZ Co. Inc.
   - Version 1.2.3.4
-  - License: GNU General Public License v3.0
+  - License: GNU General Public License v3.0 (see `etc/config/Phormix/config/Educational_Gothic_V2/LICENSE.txt`)
