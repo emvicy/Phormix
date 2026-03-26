@@ -19,8 +19,7 @@ filter:
       value: *element.Surname.attribute.minLength
       message:
         fail: Please enter at least %s characters.
-        success: You have specified more than the required minimum amount of %s
-          characters.
+        success: You have specified more than the required minimum amount of %s characters.
     empty:
       value: false
       message:

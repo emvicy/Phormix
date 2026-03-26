@@ -19,8 +19,7 @@ filter:
       value: *element.Street.attribute.minLength
       message:
         fail: Please enter at least %s characters.
-        success: You have successfully made all the necessary information for
-          this purpose.
+        success: You have successfully made all the necessary information for this purpose.
     empty:
       value: false
       message:

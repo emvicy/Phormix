@@ -66,52 +66,48 @@ attribute:
   required: true
 ~~~
 
-_`Country.yaml`_
+_`Firstname.yaml`_
 ~~~yaml
-label: &element.Country.label Country
-tag: select
+label: &element.Firstname.label Firstname
+tag: input
 attribute:
-  form: *form.id
-  id: &element.Country.attribute.id Country
-  name: *element.Country.attribute.id
+  type: text
+  id: &element.Firstname.attribute.id Firstname
+  name: *element.Firstname.attribute.id
+  value: ''
+  title: *element.Firstname.label
+  placeholder: *element.Firstname.label
+  minLength: &element.Firstname.attribute.minLength 3
+  maxlength: &element.Firstname.attribute.maxlength 50
   autofocus: false
-  #autocomplete: false
-  required: true
+  autocomplete: false
+  required: false
   disabled: false
-  multiple: true
-  size: 1 # amount to display
 filter:
   validate:
     minLength:
-      value: 2
+      value: *element.Firstname.attribute.minLength
       message:
         fail: Please enter at least %s characters.
-        success: You have successfully made all the necessary information for this purpose.
-    expect:
-      value:
-        - label: Germany
-          value: DE
-        - label: England
-          value: GB
-        - label: Netherlands
-          value: NL
-      message:
-        fail: Invalid entry.
-        success: You made a valid entry.
+        success: You have specified more than the required minimum amount of %s characters.
     empty:
       value: false
       message:
         fail: This field can not be empty. Please fill in.
     regex:
-      value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+      value: "/^[\\p{L}\\p{Zs}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.]+$/u"
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.
   sanitize:
     maxlength:
-      value: 2
+      value: *element.Firstname.attribute.maxlength
+      message:
+        fail: The maximum length is %s characters. The input was reduced accordingly.
     regex:
-      value: "/[^\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"
+      value: "/[^\\p{L}\\p{Zs}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.]/u"
+      message:
+        fail: Disvalued characters removed.
 ~~~
 
 see folder `Phormix/element` for all examples.
@@ -131,7 +127,7 @@ form:
   method: post
 #  enctype: ''
 element:
-  # names have to match to existing equal named files (without suffix) in $_sElementDirectory
+  # names have to match to existing equal named files (without suffix) in $_sElementDirectory (see /Phormix/element/)
   - MAX_FILE_SIZE
   - Salutation
   - Firstname
@@ -140,14 +136,10 @@ element:
   - Street
   - Postcode
   - City
-  - State
-  - Country
   - Telephone
-  - Fax
-  - Mobile
   - Email
-  - Description
   - Message
+  - Captcha
 ~~~
 - names beneath `element` have to match to existing equal named files (without suffix) in the Element Directory
 
