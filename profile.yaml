@@ -6,21 +6,21 @@ form:
 #  enctype: ''
 element:
   # names have to match to existing equal named files (without suffix) in $_sElementDirectory (see /Phormix/element/)
-#  - MAX_FILE_SIZE
-#  - Salutation
-#  - Firstname
-#  - Surname
-#  - Company
-#  - Street
-#  - Postcode
-#  - City
-#  - State
+  - MAX_FILE_SIZE
+  - Salutation
+  - Firstname
+  - Surname
+  - Company
+  - Street
+  - Postcode
+  - City
+  - State
   - Country
-#  - Telephone
-#  - Fax
-#  - Mobile
-#  - Email
-#  - Description
-#  - Message
-#  - Captcha
+  - Telephone
+  - Fax
+  - Mobile
+  - Email
+  - Description
+  - Message
+  - Captcha
 
