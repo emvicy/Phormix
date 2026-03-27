@@ -8,20 +8,30 @@ class PhormixValidate
 {
     /**
 	 * validates on minimum length 
-     * @param mixed $sFieldValue
+     * @param mixed $mFieldValue
      * @param int   $iMinlength
      * @return bool
      */
-	public static function _MINLENGTH(mixed $sFieldValue, int $iMinlength) : bool
+	public static function _MINLENGTH(mixed $mFieldValue, int $iMinlength) : bool
 	{
-        if (true === is_array($sFieldValue))
+        $cClosure = function($sFieldValue) use ($iMinlength) {
+            return (mb_strlen($sFieldValue) < $iMinlength);
+        };
+
+        if (true === is_array($mFieldValue))
         {
-            $sFieldValue = current($sFieldValue);
+            foreach ($mFieldValue as $sFieldValue)
+            {
+                if (true === $cClosure($sFieldValue))
+                {
+                    return false;
+                }
+            }
         }
 
-        if (true === is_string($sFieldValue))
+        if (true === is_string($mFieldValue))
         {
-            if (mb_strlen($sFieldValue) < $iMinlength)
+            if (true === $cClosure($mFieldValue))
             {
                 return false;
             }
@@ -36,24 +46,32 @@ class PhormixValidate
      * @param int    $iMaxlength
      * @return bool
      */
-	public static function _MAXLENGTH(mixed $sFieldValue, int $iMaxlength) : bool
+	public static function _MAXLENGTH(mixed $mFieldValue, int $iMaxlength) : bool
 	{
-        if (true === is_array($sFieldValue))
+        $cClosure = function($sFieldValue) use ($iMaxlength) {
+            return (mb_strlen($sFieldValue) > $iMaxlength);
+        };
+
+        if (true === is_array($mFieldValue))
         {
-            $sFieldValue = current($sFieldValue);
+            foreach ($mFieldValue as $sFieldValue)
+            {
+                if (true === $cClosure($sFieldValue))
+                {
+                    return false;
+                }
+            }
         }
 
-        if (true === is_string($sFieldValue))
+        if (true === is_string($mFieldValue))
         {
-            if (mb_strlen($sFieldValue) > $iMaxlength)
+            if (true === $cClosure($mFieldValue))
             {
                 return false;
             }
-
-            return true;
         }
 
-        return false;
+        return true;
 	}
 
     /**

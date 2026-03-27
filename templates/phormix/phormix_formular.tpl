@@ -21,7 +21,7 @@ Bootstrap
 <h1>Formular <code>"{$oPhormix->aConfig.form.name}"</code></h1>
 
 <p>
-    <a href="{$oDTRoute->get_path()}?config" target="_blank">show formular's final config</a>
+    <a href="{$oDTRoute->get_path()}?config" target="_blank">show formular's final config as <kbd>JSON</kbd></a>
 </p>
 
 <!--info-->

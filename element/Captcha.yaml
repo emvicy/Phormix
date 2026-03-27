@@ -7,9 +7,10 @@ attribute:
   value: ''
   title: *element.Captcha.label
   placeholder: *element.Captcha.attribute.id
+  pattern: &element.Captcha.attribute.pattern '[\p{L}\p{N}]{5}'
   minLength: &element.Captcha.attribute.minLength 5
   maxlength: &element.Captcha.attribute.maxlength 5
-  autofocus: false
+  autofocus: true
   autocomplete: false
   required: true
   disabled: false
@@ -25,11 +26,6 @@ filter:
       value: false
       message:
         fail: This field can not be empty. Please fill in.
-    regex:
-      value: "/^[\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
-      message:
-        fail: Your entry includes not authorized characters
-        success: Your entry includes only authorized characters.
     captcha:
       value: *element.Captcha.attribute.id
       message:

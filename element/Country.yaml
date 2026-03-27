@@ -8,8 +8,8 @@ attribute:
   autocomplete: false
   required: true
   disabled: false
-  multiple: true
-  size: 1 # amount to display
+  multiple: true  # amount of possible selection
+#  size: 2         # amount to display
 filter:
   validate:
     minLength:
