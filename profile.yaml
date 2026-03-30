@@ -3,7 +3,7 @@ form:
   name: Profile
   action: ""
   method: post
-#  enctype: ''
+  enctype: 'multipart/form-data' # enabling uploading files
 element:
   # names have to match to existing equal named files (without suffix) in $_sElementDirectory (see /Phormix/element/)
   - MAX_FILE_SIZE
@@ -23,4 +23,5 @@ element:
   - Description
   - Message
   - Captcha
+  - Upload
 

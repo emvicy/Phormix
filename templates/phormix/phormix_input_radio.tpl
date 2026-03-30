@@ -21,6 +21,11 @@
             <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
                 {$data.label}
             </label>
+            {if true === isset($element.explain)}
+                <div class="form-text">
+                    {$element.explain}
+                </div>
+            {/if}
         </div>
     {/foreach}
 {/capture}

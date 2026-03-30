@@ -1,14 +1,15 @@
-<!--select-->
+<!--input:default-->
 {capture assign="sCapture"}
     {assign var=aSent value=$oPhormix->getDataSent()}
     <a id="{$element.attribute.name}"></a>
     <label for="{$element.attribute.id}" class="form-check-label">
         {$element.label}
-        {if true === isset($element.attribute.required) && true === $element.attribute.required}<span class="text-danger">*</span>{/if}
+        {if true === isset($element.attribute.required) && true === $element.attribute.required} <span class="text-danger">*</span>{/if}
     </label>
-    <select
+    <input type="hidden" name="{$element.attribute.name}" value="{$element.attribute.name}">
+    <input
             {foreach $element.attribute as $attribute => $value}
-                {if false === $value}
+                {if false === $value || 'value' === $attribute}
                     {continue}
                 {elseif 'name' === $attribute}
                     {$attribute}="{$value}[]"
@@ -16,18 +17,14 @@
                     {$attribute}="{$value}"
                 {/if}
             {/foreach}
-            class="form-select"
+            class="form-control"
+            {if true === isset($aSent[$element.attribute.name])}value="{$aSent[$element.attribute.name]}"{/if}
     >
-    <option disabled value> -- please select an option -- </option>
-    {foreach $element.filter.validate.expect.value as $key => $data}
-        <option value="{$data.value}">{$data.label}</option>
-    {/foreach}
-    </select>
     {if true === isset($element.explain)}
-        <div class="form-text">
-            {$element.explain}
-        </div>
+    <div class="form-text">
+        {$element.explain}
+    </div>
     {/if}
 {/capture}
 {$sCapture|tidyMarkup}
-<!--/select-->
+<!--/input:default-->

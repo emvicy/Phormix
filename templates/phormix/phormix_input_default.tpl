@@ -17,6 +17,11 @@
             class="form-control"
             {if true === isset($aSent[$element.attribute.name])}value="{$aSent[$element.attribute.name]}"{/if}
     >
+    {if true === isset($element.explain)}
+        <div class="form-text">
+            {$element.explain}
+        </div>
+    {/if}
 {/capture}
 {$sCapture|tidyMarkup}
 <!--/input:default-->

@@ -1,0 +1,32 @@
+label: &element.Upload.label Upload PDF files
+tag: input
+attribute:
+  type: file
+  id: &element.Upload.attribute.id Upload
+  name: *element.Upload.attribute.id
+  value: ''
+  multiple: true
+  title: *element.Upload.label
+  placeholder: *element.Upload.label
+  autofocus: false
+  autocomplete: false
+  required: false
+  disabled: false
+explain: *element.MAX_FILE_SIZE.explain
+filter:
+  validate:
+    file:
+      value:
+      message:
+        fail: Uploading files failed due to invalid structure.
+    filetype:
+      value:
+        - label: PDF
+          value: application/pdf
+      message:
+        fail: Your upload includes not authorized filetypes
+    filemaxfilesize:
+      value: *element.MAX_FILE_SIZE.value
+      message:
+        fail: The maximum file size has been exceeded.
+        success: The file size is within the allowed range.

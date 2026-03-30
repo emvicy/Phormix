@@ -18,6 +18,11 @@
             id="{$element.attribute.id}{$data.label}"
             class="form-check-input"
     >
+    {if true === isset($element.explain)}
+        <div class="form-text">
+            {$element.explain}
+        </div>
+    {/if}
 {/capture}
 {$sCapture|tidyMarkup}
 <!--/input:checkbox-->

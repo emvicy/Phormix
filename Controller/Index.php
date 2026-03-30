@@ -114,6 +114,7 @@ class Index extends Controller
 
         view()->assign('oPhormix', $oPhormix);
         view()->assign('oDTRoute', $oDTRoute);
+        view()->assign('aFiles', $_FILES);
         view()->autoAssign();
     }
 

@@ -94,6 +94,13 @@ Bootstrap
 
     <b>Data:</b>
     {MVC\Strings::ulli($oPhormix->getDataAccepted())}
+
+    {if false === empty($aFiles)}
+        <br>
+        <b>Files:</b>
+        {assign var=aFile value=current($aFiles)}
+        {MVC\Strings::ulli($aFile.name)}
+    {/if}
     <!--/success-->
 {/if}
 <!--/messages-->
@@ -118,6 +125,8 @@ Bootstrap
                             {include file="phormix/phormix_input_checkbox.tpl"}
                         {elseif 'radio' === $element.attribute.type}
                             {include file="phormix/phormix_input_radio.tpl"}
+                        {elseif 'file' === $element.attribute.type}
+                            {include file="phormix/phormix_input_file.tpl"}
                         {elseif 'hidden' === $element.attribute.type}
                             {include file="phormix/phormix_input_hidden.tpl"}
                         {else}

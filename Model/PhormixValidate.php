@@ -152,77 +152,70 @@ class PhormixValidate
 	}
 
     /**
-     * validates file access
-     * @param array $aFiles
+     * validates $_FILES structure and errors
+     * @param string $sUpload
+     * @param mixed  $none
      * @return bool
      */
-	public static function _FILE(array $aFiles) : bool
+	public static function _FILE(string $sUpload, mixed $none) : bool
 	{
-		if (false === is_array($aFiles))
-		{
-			return false;
-		}
+        // get the Files
+        $aFiles = ($_FILES[$sUpload] ?? array());
 
-        // check syntax of $aFile - how it compares to common $_FILES array syntax
-        if (false === (0 === count(array_diff(array('name', 'type', 'tmp_name', 'error', 'size'), array_keys($aFiles)))))
-        {
-			return false;
-        }  
-        
-        // check error
-        if (false === (0 === $aFiles['error']))
+        // check syntax of $aFiles - how it compares to common $_FILES array syntax
+        if (false === (0 === count(array_diff(array('name', 'full_path', 'type', 'tmp_name', 'error', 'size'), array_keys($aFiles)))))
         {
             return false;
         }
-        
+
+        // false on any error
+        if (true === (false === empty(array_filter(($aFiles['error'] ?? array())))))
+        {
+            return false;
+        }
+
 		return true;
 	}
 
     /**
      * validates filetype
-     * @param array $aFiles
-     * @param array $aValid
+     * @param string $sUpload
+     * @param array  $aExpect
      * @return bool
+     * @throws \ReflectionException
      */
-	public static function _FILETYPE(array $aFiles, array $aValid) : bool
-	{
-        if (false === self::_file($aFiles))
+	public static function _FILETYPE(string $sUpload, array $aExpect) : bool
+    {
+        // get the Files
+        $aFiles = ($_FILES[$sUpload] ?? array());
+        $aExpectValue = array_column($aExpect, 'value');
+
+        foreach ($aFiles['type'] as $sType)
         {
-            return false;
-        }
-        
-        (false === is_array($aValid))
-            ? $aValid = array($aValid)
-            : false
-        ;
-        $sIsFileType = trim(shell_exec('file -bi -- ' . escapeshellarg($aFiles['tmp_name'])));
-        
-        foreach ($aValid as $sValidFileType)
-        {
-            if (substr($sIsFileType, 0, strlen($sValidFileType)) == $sValidFileType)
+            if (false === in_array($sType, $aExpectValue))
             {
-                return true;
+                return false;
             }
         }
-                
-    	return false;
+
+    	return true;
 	}
 
     /**
      * validates max filesize of file
-     * @param array $aFiles
-     * @param int   $iMaxfilesize
+     * @param string $sUpload
+     * @param int    $iMaxfilesize
      * @return bool
+     * @throws \ReflectionException
      */
-	public static function _FILEMAXFILESIZE(array $aFiles, int $iMaxfilesize) : bool
+	public static function _FILEMAXFILESIZE(string $sUpload, int $iMaxfilesize) : bool
 	{
-        if (false === self::_file($aFiles))
-        {
-            return false;
-        }
-        
+        // get the Files
+        $aFiles = ($_FILES[$sUpload] ?? array());
+        $iSize = array_sum($aFiles['size']);
+
         // check size
-        if  ($aFiles['size'] > $iMaxfilesize)
+        if  ($iSize > $iMaxfilesize)
         {
             return false;
         }

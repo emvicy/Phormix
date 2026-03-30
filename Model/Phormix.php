@@ -123,6 +123,7 @@ class Phormix
         {
             $aAttribute = ($aElement['attribute'] ?? array());
             $sAttributeName = ($aAttribute['name'] ?? '');
+            $sAttributeName = str_replace(['[', ']'], '', $sAttributeName);
             $bRequired = ($aAttribute['required'] ?? false);
             $aValidate = ($aElement['filter']['validate'] ?? array());
             $aSanitize = ($aElement['filter']['sanitize'] ?? array());
@@ -144,9 +145,11 @@ class Phormix
             {
                 // e.g. `_minLength`
                 $sValidateMethod = strtoupper('_' . $sKey);
+                $bElementIsValid = false;
 
                 if (array_key_exists('value', $aValue))
                 {
+
                     // either it is required, or it is not but then there has to be a value
                     if (true === $bRequired || (false === $bRequired && false === empty($aData[$sAttributeName])))
                     {
