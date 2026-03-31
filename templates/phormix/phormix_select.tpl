@@ -18,7 +18,6 @@
             {/foreach}
             class="form-select"
     >
-    <option disabled value> -- please select an option -- </option>
     {foreach $element.filter.validate.expect.value as $key => $data}
         <option value="{$data.value}">{$data.label}</option>
     {/foreach}

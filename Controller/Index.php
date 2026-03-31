@@ -8,6 +8,7 @@ namespace Phormix\Controller;
 use App\Controller;
 use App\Model\Menu;
 use MVC\Config;
+use MVC\DataType\DTFileUpload;
 use MVC\DataType\DTRequestIn;
 use MVC\DataType\DTRoute;
 use MVC\Http\Header;
@@ -94,9 +95,10 @@ class Index extends Controller
             // formular config yaml file
             ->loadConfigYaml(Config::get_MVC_MODULES_DIR() . '/Phormix/profile.yaml')
             // set a Validate Class that fits your needs
-            ->setValidateClass('\Phormix\Model\PhormixValidate')
-            // run Phormix
-            ->run();
+            ->setValidateClass('\Phormix\Model\PhormixValidate');
+
+        // run Phormix
+        $oPhormix->run();
 
         // show config
         $this->showConfigOnDemand($oPhormix);
@@ -104,8 +106,11 @@ class Index extends Controller
         // Form was successfully sent; Validation succeeded
         if (true === $oPhormix->bSuccess)
         {
-            // process data..
-            ;
+            // get Data Array
+            $aData = $oPhormix->getDataAccepted();
+
+            // get uploaded Files DT Class
+            $oDTFileUpload = DTFileUpload::create(array_first($_FILES));
         }
 
         // create new captcha text; take identifier from config

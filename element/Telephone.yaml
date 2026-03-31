@@ -1,4 +1,5 @@
 label: &element.Telephone.label Telephone
+explain: Please make sure your number begins with a `0` or a `+`
 tag: input
 attribute:
   type: text

@@ -1,11 +1,12 @@
 label: &element.Email.label E-mail address
+explain: &element.Email.explain 'E-mail address of the form: foo@example.de'
 tag: input
 attribute:
   type: email
   id: &element.Email.attribute.id Email
   name: *element.Email.attribute.id
   value: ''
-  title: 'E-mail address of the form: foo@example.de'
+  title: *element.Email.explain
   placeholder: *element.Email.label
   minLength: &element.Email.attribute.minLength 5
   maxlength: &element.Email.attribute.maxlength 255

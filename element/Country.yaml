@@ -1,4 +1,5 @@
 label: &element.Country.label Country
+explain: Please select an option
 tag: select
 attribute:
   form: *form.id
@@ -8,7 +9,7 @@ attribute:
   autocomplete: false
   required: true
   disabled: false
-  multiple: true  # amount of possible selection
+  multiple: false  # amount of possible selection
   size: 3         # amount to display
 filter:
   validate:

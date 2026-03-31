@@ -1,4 +1,5 @@
-label: &element.Salutation.label Salutation / Gender
+label: &element.Salutation.label Salutation
+explain: Please select your preferred title
 tag: input
 attribute:
   type: radio
@@ -24,10 +25,16 @@ filter:
     expect:
       value:
         - label: Mr
+          explain: Mister / male
           value: Mr
         - label: Mrs
+          explain: Mistress; married woman / female
           value: Mrs
+        - label: Ms
+          explain: Miss; unmarried woman / female
+          value: Ms
         - label: unspecific
+          explain: unspecific
           value: unspecific
       message:
         fail: Invalid entry.

@@ -1,6 +1,7 @@
 # Phormix
 
-a PHP HTML-Forms Checker, Validator, Sanitizer module for Emvicy2 (2.x) PHP Framework: https://github.com/emvicy/Emvicy/tree/2.x
+a PHP HTML-Forms Checker, Validator, Sanitizer module  
+for Emvicy2 PHP Framework: https://github.com/emvicy/Emvicy/tree/2.x
 
 ## Overview
 
@@ -8,8 +9,10 @@ a PHP HTML-Forms Checker, Validator, Sanitizer module for Emvicy2 (2.x) PHP Fram
 - [Usage](#Usage)
   - [1. declare Form Elements](#1)
     - [1.1 Examples](#1-1) 
+    - [1.2 Using Variables](#1-2)
   - [2. declare a `formular.yaml`](#2)
   - [3. run Phormix inside of your Controller method](#3)
+- [Modify element config](#Modify)
 - [Demo](#Demo)
 
 ---
@@ -40,35 +43,38 @@ Each declaration...
 should have:
 
 - `label`: (string)
+- `explain`: (string)
 
 must have: 
 
 - `tag`: `input`|`select`|`textarea`
-- `attribute`: (array)
+- `attribute`: (array) HTML attributes
 
 may have:
 
 - `filter`:
-    - `validate`:
-    - `sanitize`:
+    - `validate`: (array)
+    - `sanitize`: (array)
 
 
 #### 1.1 Examples <a id="1-1"></a>
 
 *`MAX_FILE_SIZE.yaml`*  
 ~~~yaml
-label: MAX_FILE_SIZE
+label: &element.MAX_FILE_SIZE.label MAX_FILE_SIZE
+explain: &element.MAX_FILE_SIZE.explain 'You can upload files up to 10 MB in size'
 tag: input
 attribute:
   type: hidden
   name: MAX_FILE_SIZE
-  value: 10485760 # Bytes; equals to 10 MB
+  value: &element.MAX_FILE_SIZE.value 10485760 # value in Bytes; equals to 10 MB
   required: true
 ~~~
 
 _`Firstname.yaml`_
 ~~~yaml
 label: &element.Firstname.label Firstname
+explain:
 tag: input
 attribute:
   type: text
@@ -111,6 +117,24 @@ filter:
 ~~~
 
 see folder `Phormix/element` for all examples.
+
+---
+
+#### 1.2 Using Variables <a id="1-2"></a>
+
+you can "save" values into a variable so that you can reuse that variable later again.
+
+**Example**
+
+_here the value `Firstname` is saved into the variable `element.Firstname.label` by adding `&` before_
+~~~yaml
+label: &element.Firstname.label Firstname
+~~~
+
+_you can then access the value of that variable by adding `*` before_
+~~~yaml
+title: *element.Firstname.label
+~~~
 
 ---
 
@@ -157,14 +181,19 @@ $oPhormix = Phormix::init()
     ->loadConfigYaml('/path/to/formular.yaml')
     // set a Validate Class that fits your needs
     ->setValidateClass('\Phormix\Model\PhormixValidate')
-    ->run();
-;
+    ;
+    
+// run Phormix
+$oPhormix->run();
 
 // form was successfully sent + validated
 if (true === $oPhormix->bSuccess)
 {
-    // get Data
-    $aFormData = $oPhormix->getDataAccepted()
+    // get Data Array sent by Formular
+    $aFormData = $oPhormix->getDataAccepted();
+
+    // get uploaded Files DT Class
+    $oDTFileUpload = DTFileUpload::create(array_first($_FILES));    
 }
 
 // assign to view
@@ -184,30 +213,39 @@ view()->autoAssign();
 ~~~html
 <!--form-->
 {if false === $oPhormix->bSuccess}
-    <form {$oPhormix->getMarkupFormAttributes()}>      
-        {$oPhormix->getMarkupFormIdentifier()}
-        {$oPhormix->getMarkupTicket()}      
-        {foreach item=element from=$oPhormix->aConfig.element}
-            <div class="mb-3">
-                {if 'input' === $element.tag}
-                    {if 'checkbox' === $element.attribute.type}
-                        {include file="phormix/phormix_input_checkbox.tpl"}
-                    {elseif 'radio' === $element.attribute.type}
-                        {include file="phormix/phormix_input_radio.tpl"}
-                    {elseif 'hidden' === $element.attribute.type}
-                        {include file="phormix/phormix_input_hidden.tpl"}
-                    {else}
-                        {include file="phormix/phormix_input_default.tpl"}
-                    {/if}
-                {elseif 'select' === $element.tag}
-                    {include file="phormix/phormix_select.tpl"}
-                {elseif 'textarea' === $element.tag}
-                    {include file="phormix/phormix_textarea.tpl"}
-                {/if}
-            </div>
-        {/foreach}
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
-    </form>
+<form {$oPhormix->getMarkupFormAttributes()}>
+  <fieldset>
+    <legend>{$oPhormix->aConfig.form.name}</legend>
+
+    {$oPhormix->getMarkupFormIdentifier()}
+    {$oPhormix->getMarkupTicket()}
+
+    {foreach item=element from=$oPhormix->aConfig.element}
+    <div class="mb-3">
+      {if 'input' === $element.tag}
+          {if true === isset($element.attribute['data-element']) && 'input_captcha' === $element.attribute['data-element']}
+              {include file="phormix/phormix_input_captcha.tpl"}
+          {elseif 'checkbox' === $element.attribute.type}
+              {include file="phormix/phormix_input_checkbox.tpl"}
+          {elseif 'radio' === $element.attribute.type}
+              {include file="phormix/phormix_input_radio.tpl"}
+          {elseif 'file' === $element.attribute.type}
+              {include file="phormix/phormix_input_file.tpl"}
+          {elseif 'hidden' === $element.attribute.type}
+              {include file="phormix/phormix_input_hidden.tpl"}
+          {else}
+              {include file="phormix/phormix_input_default.tpl"}
+          {/if}
+        {elseif 'select' === $element.tag}
+            {include file="phormix/phormix_select.tpl"}
+        {elseif 'textarea' === $element.tag}
+            {include file="phormix/phormix_textarea.tpl"}
+      {/if}
+    </div>
+    {/foreach}
+    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+  </fieldset>
+</form>
 {/if}
 <!--/form-->
 ~~~
@@ -252,6 +290,51 @@ view()->autoAssign();
   </ul>
   <!--/missing-->
 {/if}
+~~~
+
+---
+
+## Modify element config <a id="Modify"></a>
+
+the cleanest way is to write a new element config file.
+
+But you can also modify the element config to your needs on-the-fly. Make sure to 
+modify before calling `$oPhormix->run();`
+
+**Examples**
+
+_add filetype "text/plain" to the "Upload" element (and leave the element config files unchanged)_   
+~~~php
+[..]
+    
+$oPhormix->aConfig['element']['Upload']['filter']['validate']['filetype']['value'][] = array(
+  'label' => 'Text', 
+  'value' => 'text/plain'
+);
+            
+// run Phormix
+$oPhormix->run();
+
+[..]
+~~~
+
+_modify max filesize to 2MB (and leave the element config files unchanged)_      
+~~~php
+[..]
+
+// modify "MAX_FILE_SIZE" element filesize and "explain" text
+$oPhormix->aConfig['element']['MAX_FILE_SIZE']['attribute']['value'] = 2097152; # 2MB
+$oPhormix->aConfig['element']['MAX_FILE_SIZE']['explain'] = 'You can upload files up to ' . $oPhormix->aConfig['element']['MAX_FILE_SIZE']['attribute']['value'] . ' Bytes in size';
+
+// modify "Upload" element filesize and "explain" text
+$oPhormix->aConfig['element']['Upload']['attribute']['required'] = true;
+$oPhormix->aConfig['element']['Upload']['explain'] = $oPhormix->aConfig['element']['MAX_FILE_SIZE']['explain'];
+$oPhormix->aConfig['element']['Upload']['filter']['validate']['filemaxfilesize']['value'] = $oPhormix->aConfig['element']['MAX_FILE_SIZE']['attribute']['value'];
+            
+// run Phormix
+$oPhormix->run();
+
+[..]
 ~~~
 
 ---

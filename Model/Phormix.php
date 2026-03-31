@@ -145,12 +145,12 @@ class Phormix
             {
                 // e.g. `_minLength`
                 $sValidateMethod = strtoupper('_' . $sKey);
-                $bElementIsValid = false;
+                $bElementIsValid = true;
 
                 if (array_key_exists('value', $aValue))
                 {
-
-                    // either it is required, or it is not but then there has to be a value
+                    // either it is required
+                    // or it is not but then there has to be a value that can be checked
                     if (true === $bRequired || (false === $bRequired && false === empty($aData[$sAttributeName])))
                     {
                         $bElementIsValid = $this->_sValidateClass::$sValidateMethod(
@@ -169,7 +169,7 @@ class Phormix
                     if (false === $bElementIsValid)
                     {
                         // add error
-                        $this->_aError[$sAttributeName] =  (array_key_exists('fail', ($aValue['message'] ?? array())))
+                        $this->_aError[$sAttributeName] = (array_key_exists('fail', ($aValue['message'] ?? array())))
                             ? '"' . $sElementIdentifier . '": ' . sprintf($aValue['message']['fail'], $aValue['value'])
                             : '`' . $aElement['label'] . '` is invalid.'
                         ;

@@ -1,6 +1,7 @@
 <!--input:radio-->
 {capture assign="sCapture"}
     {assign var=aSent value=$oPhormix->getDataSent()}
+
     {$element.label} {if true === isset($element.attribute.required) && true === $element.attribute.required}<span class="text-danger">*</span>{/if}
     {foreach $element.filter.validate.expect.value as $data}
         <div class="form-check form-check-inline">
@@ -20,14 +21,13 @@
             <a id="{$element.attribute.name}"></a>
             <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
                 {$data.label}
+                {if true === isset($data.explain)}
+                    <div class="form-text">{$data.explain}</div>
+                {/if}
             </label>
-            {if true === isset($element.explain)}
-                <div class="form-text">
-                    {$element.explain}
-                </div>
-            {/if}
         </div>
     {/foreach}
+    {if true === isset($element.explain)}<br><span class="form-text">{$element.explain}</span>{/if}
 {/capture}
 {$sCapture|tidyMarkup}
 <!--/input:radio-->

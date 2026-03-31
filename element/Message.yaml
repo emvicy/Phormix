@@ -1,4 +1,5 @@
 label: &element.Message.label Message
+explain:
 tag: textarea
 attribute:
   type: text

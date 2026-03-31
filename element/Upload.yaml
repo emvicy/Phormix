@@ -1,4 +1,12 @@
+# if you want to use this element config
+# consider using MAX_FILE_SIZE element before in your form yaml:
+# [..]
+# element:
+#   - MAX_FILE_SIZE
+#   - Upload
+#--------------------------------------------
 label: &element.Upload.label Upload PDF files
+explain: 'You can upload files up to 10 MB in size'
 tag: input
 attribute:
   type: file
@@ -12,21 +20,20 @@ attribute:
   autocomplete: false
   required: false
   disabled: false
-explain: *element.MAX_FILE_SIZE.explain
 filter:
   validate:
-    file:
-      value:
+    filemaxfilesize:
+      value: 10485760 # value in Bytes; equals to 10 MB
       message:
-        fail: Uploading files failed due to invalid structure.
+        fail: The maximum file size of %s Bytes has been exceeded.
+        success: The file size is within the allowed range of %s Bytes.
     filetype:
       value:
         - label: PDF
           value: application/pdf
       message:
         fail: Your upload includes not authorized filetypes
-    filemaxfilesize:
-      value: *element.MAX_FILE_SIZE.value
+    file:
+      value:
       message:
-        fail: The maximum file size has been exceeded.
-        success: The file size is within the allowed range.
+        fail: Uploading files failed due to invalid structure.

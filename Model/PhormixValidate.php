@@ -152,6 +152,34 @@ class PhormixValidate
 	}
 
     /**
+     * @param string $sUpload
+     * @return bool
+     */
+    protected static function noFilesUploaded(string $sUpload) : bool
+    {
+        // 4 => 'No file was uploaded'; @see https://www.php.net/manual/de/features.file-upload.errors.php#115746
+        return (true === in_array(4, array_filter((($_FILES[$sUpload] ?? array())['error'] ?? array()))));
+    }
+
+    /**
+     * @param string $sUpload
+     * @return bool
+     */
+    protected static function validUploadExists(string $sUpload) : bool
+    {
+        // get from Files
+        $aFiles = ($_FILES[$sUpload] ?? array());
+
+        // false on any error (value > 0); @see https://www.php.net/manual/de/features.file-upload.errors.php#115746
+        if (true === (false === empty(array_filter(($aFiles['error'] ?? array())))))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * validates $_FILES structure and errors
      * @param string $sUpload
      * @param mixed  $none
@@ -159,17 +187,23 @@ class PhormixValidate
      */
 	public static function _FILE(string $sUpload, mixed $none) : bool
 	{
+        // no files, no validation
+        if (true === self::noFilesUploaded($sUpload))
+        {
+            return true;
+        }
+
+        // no validate
+        if (false === self::validUploadExists($sUpload))
+        {
+            return false;
+        }
+
         // get the Files
         $aFiles = ($_FILES[$sUpload] ?? array());
 
         // check syntax of $aFiles - how it compares to common $_FILES array syntax
         if (false === (0 === count(array_diff(array('name', 'full_path', 'type', 'tmp_name', 'error', 'size'), array_keys($aFiles)))))
-        {
-            return false;
-        }
-
-        // false on any error
-        if (true === (false === empty(array_filter(($aFiles['error'] ?? array())))))
         {
             return false;
         }
@@ -186,6 +220,18 @@ class PhormixValidate
      */
 	public static function _FILETYPE(string $sUpload, array $aExpect) : bool
     {
+        // no files, no validation
+        if (true === self::noFilesUploaded($sUpload))
+        {
+            return true;
+        }
+
+        // no validate
+        if (false === self::validUploadExists($sUpload))
+        {
+            return false;
+        }
+
         // get the Files
         $aFiles = ($_FILES[$sUpload] ?? array());
         $aExpectValue = array_column($aExpect, 'value');
@@ -210,6 +256,18 @@ class PhormixValidate
      */
 	public static function _FILEMAXFILESIZE(string $sUpload, int $iMaxfilesize) : bool
 	{
+        // no files, no validation
+        if (true === self::noFilesUploaded($sUpload))
+        {
+            return true;
+        }
+
+        // no validate
+        if (false === self::validUploadExists($sUpload))
+        {
+            return false;
+        }
+
         // get the Files
         $aFiles = ($_FILES[$sUpload] ?? array());
         $iSize = array_sum($aFiles['size']);
@@ -219,7 +277,7 @@ class PhormixValidate
         {
             return false;
         }
-                
+
 		return true;
 	}
     

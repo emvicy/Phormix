@@ -1,4 +1,5 @@
-label: &element.Captcha.label Please enter the Captcha code shown
+label: &element.Captcha.label Captcha
+explain: &element.Captcha.explain Please enter the Captcha code shown here
 tag: input
 attribute:
   type: text
@@ -6,11 +7,11 @@ attribute:
   name: *element.Captcha.attribute.id
   value: ''
   title: *element.Captcha.label
-  placeholder: *element.Captcha.attribute.id
+  placeholder:
   pattern: &element.Captcha.attribute.pattern '[\p{L}\p{N}]{5}'
   minLength: &element.Captcha.attribute.minLength 5
   maxlength: &element.Captcha.attribute.maxlength 5
-  autofocus: true
+  autofocus: false
   autocomplete: false
   required: true
   disabled: false
