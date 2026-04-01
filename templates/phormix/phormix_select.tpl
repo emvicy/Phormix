@@ -19,7 +19,7 @@
             class="form-select"
     >
     {foreach $element.filter.validate.expect.value as $key => $data}
-        <option value="{$data.value}">{$data.label}</option>
+        <option value="{$data.value}" {if true === isset($aSent[$element.attribute.name]) && current($aSent[$element.attribute.name]) === $data.value}selected{/if}>{$data.label}</option>
     {/foreach}
     </select>
     {if true === isset($element.explain)}
