@@ -11,11 +11,16 @@ use MVC\Config;
 use MVC\DataType\DTFileUpload;
 use MVC\DataType\DTRequestIn;
 use MVC\DataType\DTRoute;
+use MVC\Debug;
 use MVC\Http\Header;
 use MVC\Media\Type_Application_json;
+use MVC\Media\Type_Application_texinfo;
+use MVC\Media\Type_Application_yaml;
+use MVC\Media\Type_Text_plain;
 use MVC\Session;
 use MVC\Strings;
 use Phormix\Model\Phormix;
+use Symfony\Component\Yaml\Yaml;
 
 
 class Index extends Controller
@@ -130,11 +135,24 @@ class Index extends Controller
      */
     protected function showConfigOnDemand(Phormix $oPhormix)
     {
-        if (true === isset($_GET['config']))
+        if (false === isset($_GET['config']))
         {
-            Type_Application_json::header();
-            echo json_encode($oPhormix->aConfig);
-            exit();
+            return;
+        }
+
+        if ('json' === $_GET['config'])
+        {
+            $oPhormix->getFinalConfigAsJson(bReturn: false);
+        }
+
+        if ('php' === $_GET['config'])
+        {
+            $oPhormix->getFinalConfigAsPhp(bReturn: false);
+        }
+
+        if ('yaml' === $_GET['config'])
+        {
+            $oPhormix->getFinalConfigAsYaml(bReturn: false);
         }
     }
 

@@ -11,6 +11,8 @@ use MVC\Convert;
 use MVC\Debug;
 use MVC\Error;
 use MVC\Log;
+use MVC\Media\Type_Application_json;
+use MVC\Media\Type_Text_plain;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -278,6 +280,28 @@ class Phormix
     }
 
     /**
+     * @param string $sClass
+     * @return $this
+     */
+    public function setValidateClass(string $sClass)
+    {
+        $this->_sValidateClass = $sClass;
+
+        return $this;
+    }
+
+    /**
+     * @param string $sSanitizeClass
+     * @return $this
+     */
+    public function setSanitizeClass(string $sSanitizeClass)
+    {
+        $this->_sSanitizeClass = $sSanitizeClass;
+
+        return $this;
+    }
+
+    /**
      * @param string $sYamlFile
      * @return $this
      * @throws \ReflectionException
@@ -415,25 +439,51 @@ class Phormix
     }
 
     /**
-     * @param string $sClass
-     * @return $this
+     * @param bool $bReturn
+     * @return false|string|void
      */
-    public function setValidateClass(string $sClass)
+    public function getFinalConfigAsJson(bool $bReturn = true)
     {
-        $this->_sValidateClass = $sClass;
+        if (false === $bReturn)
+        {
+            Type_Application_json::header();
+            echo json_encode($this->aConfig);
+            exit();
+        }
 
-        return $this;
+        return json_encode($this->aConfig);
     }
 
     /**
-     * @param string $sSanitizeClass
-     * @return $this
+     * @param bool $bReturn
+     * @return false|string|void
      */
-    public function setSanitizeClass(string $sSanitizeClass)
+    public function getFinalConfigAsPhp(bool $bReturn = true)
     {
-        $this->_sSanitizeClass = $sSanitizeClass;
+        if (false === $bReturn)
+        {
+            Type_Text_plain::header();
+            echo Debug::varExport($this->aConfig, true);
+            exit();
+        }
 
-        return $this;
+        return json_encode($this->aConfig);
+    }
+
+    /**
+     * @param bool $bReturn
+     * @return false|string|void
+     */
+    public function getFinalConfigAsYaml(bool $bReturn = true)
+    {
+        if (false === $bReturn)
+        {
+            Type_Text_plain::header();
+            echo Yaml::dump($this->aConfig, 10, 4);
+            exit();
+        }
+
+        return json_encode($this->aConfig);
     }
 
     #-------------------------------------------------------------------------------------------------------------------
