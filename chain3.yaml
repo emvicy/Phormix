@@ -1,0 +1,27 @@
+form:
+  id: &form.id Chain3 # get the id by calling "*form.id"
+  name: Chain3
+  action: ""
+  method: "post"
+#  enctype: "multipart/form-data" # enabling uploading files
+element:
+  # names have to match to existing equal named files (without suffix) in $_sElementDirectory (see /Phormix/element/)
+#  - Salutation
+#  - Firstname
+#  - Surname
+#  - Company
+#  - Street
+#  - Postcode
+#  - City
+#  - State
+#  - Country
+#  - Telephone
+#  - Fax
+#  - Mobile
+#  - Email
+  - Description
+#  - Message
+#  - Captcha
+#  # Upload
+#  - MAX_FILE_SIZE
+#  - Upload

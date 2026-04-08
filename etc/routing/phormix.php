@@ -24,23 +24,23 @@ $oDTRoutingAdditional = \MVC\DataType\DTRoutingAdditional::create()
 // start
 \MVC\Route::MIX(['GET', 'POST'],
     sPath: '/phormix/',
-    sClassMethod: '\Phormix\Controller\Index::index',
+    sClassMethod: '\Phormix\Controller\Index::readme',
     mOptional: clone $oDTRoutingAdditional->set_sTitle('Phormix'),
-    sTag: 'phormix',
+    sTag: 'phormix_readme',
 );
 
 // formular "Profile"
 \MVC\Route::MIX(['GET', 'POST'],
     sPath: '/phormix/profile',
-    sClassMethod: '\Phormix\Controller\Index::formularProfile',
-    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Profile"')->set_sContent('phormix/phormix_formular.tpl'),
+    sClassMethod: '\Phormix\Controller\Profile::formular',
+    mOptional: clone $oDTRoutingAdditional->set_sTitle('single-page form "Profile"')->set_sContent('phormix/phormix_formular.tpl'),
     sTag: 'phormix_profile',
 );
 
-// formular "Chain"
+//// formular "Chain"
 //\MVC\Route::MIX(['GET', 'POST'],
 //    sPath: '/phormix/chain',
-//    sClassMethod: '\Phormix\Controller\Index::formularChain',
-//    mOptional: clone $oDTRoutingAdditional->set_sTitle('Formular "Chain"')->set_sContent('phormix/phormix_formular.tpl'),
+//    sClassMethod: '\Phormix\Controller\Chain::formular',
+//    mOptional: clone $oDTRoutingAdditional->set_sTitle('multi-page form "Chain1|2|3"')->set_sContent('phormix/phormix_formular_chain.tpl'),
 //    sTag: 'phormix_chain',
 //);

@@ -105,7 +105,7 @@ Bootstrap
         </div>
 
         <b>Data:</b>
-        {MVC\Strings::ulli($oPhormix->getDataAccepted())}
+        {MVC\Strings::ulli($smarty.session.Chain)}
 
         {if false === empty($aFiles)}
             <br>

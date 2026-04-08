@@ -10,7 +10,8 @@ $aConfig['MODULE']['Phormix']['Menu'] = [
 
     // Name
     'frontend' => [
-        'phormix',
+        'phormix_readme',
         'phormix_profile',
+//        'phormix_chain'
     ],
 ];

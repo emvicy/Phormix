@@ -145,14 +145,12 @@ here you declare your formular and which elements it contains.
 _`formular.yaml`_
 ~~~yaml
 form:
-  id: &form.id Profile # get the id by calling "*form.id"
-  name: Profile
+  id: &form.id Profile
+  name: *form.id
   action: ""
   method: post
-#  enctype: ''
 element:
   # names have to match to existing equal named files (without suffix) in $_sElementDirectory (see /Phormix/element/)
-  - MAX_FILE_SIZE
   - Salutation
   - Firstname
   - Surname
@@ -174,14 +172,11 @@ element:
 _Inside of your Controller method_  
 ~~~php
 // start
-$oPhormix = Phormix::init()
-    // dir with form elements as "yaml" files
-    ->setElementDirectory('/path/to/element/dir/')
-    // formular config yaml file
-    ->loadConfigYaml('/path/to/formular.yaml')
-    // set a Validate Class that fits your needs
-    ->setValidateClass('\Phormix\Model\PhormixValidate')
-    ;
+$oPhormix = Phormix::init(array(
+    'sElementDirectory' => '/path/to/element/dir/',
+    'sConfigYamlFile' => '/path/to/formular.yaml',
+    'sValidateClass' => '\Phormix\Model\PhormixValidate',
+));    
     
 // run Phormix
 $oPhormix->run();

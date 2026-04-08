@@ -1,6 +1,12 @@
 <!--input:default-->
 {capture assign="sCapture"}
+    <!--get data sent by post-->
     {assign var=aSent value=$oPhormix->getDataSent()}
+{*    <!--get prior data from session-->*}
+{*    {if true === empty($aSent)}*}
+{*        {assign var=aSent value=$smarty.session.Chain[$smarty.session.Chain.step].aData}*}
+{*    {/if}*}
+
     <a id="{$element.attribute.name}"></a>
     <label for="{$element.attribute.id}" class="form-check-label">
         {$element.label}

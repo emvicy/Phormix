@@ -21,9 +21,9 @@ use Symfony\Component\Yaml\Yaml;
 class Phormix
 {
     /**
-     * @var self|null
+     * @var array
      */
-    protected static $_oInstance = null;
+    protected static $_aInstance = [];
 
     /**
      * @var string
@@ -83,14 +83,21 @@ class Phormix
     #-------------------------------------------------------------------------------------------------------------------
     # protected
 
+    protected function __clone() { }
+
     /**
      * @param string $sYamlFile
      * @param string $sElementFolder
      * @throws \ReflectionException
      */
-    protected function __construct()
+    protected function __construct(array $aSetup = array())
     {
-        $this->setElementDirectory(realpath(__DIR__ . '/../') . '/element/');
+        $this->setElementDirectory($aSetup['sElementDirectory']);
+
+        $this->loadConfigYaml($aSetup['sConfigYamlFile']);
+        $this->sFormIdentifier = md5(Convert::serialize($this->aConfig));
+
+        $this->setValidateClass($aSetup['sValidateClass']);
     }
 
     /**
@@ -109,8 +116,6 @@ class Phormix
      */
     protected function _check($aData)
     {
-        Log::write($aData, 'phormix.log');
-
         // ticket
         if (
             true === empty(($aData[$this->_getSessionInfo('sTicket')] ?? '')) ||
@@ -119,6 +124,10 @@ class Phormix
         {
             return false;
         }
+
+        // remove ticket + formidentifier
+        unset($aData[$this->_getSessionInfo('sTicket')]);
+        unset($aData[$this->sFormIdentifier]);
 
         // walk elements
         foreach ($this->aConfig['element'] as $iKey => $aElement)
@@ -252,27 +261,11 @@ class Phormix
         return ($_SESSION[$this->_sPrefix][$this->sFormIdentifier][$sKey] ?? null);
     }
 
-    #-------------------------------------------------------------------------------------------------------------------
-    # public
-
-    /**
-     * @return \Phormix\Model\Phormix|self|null
-     */
-    public static function init()
-    {
-        if (null === self::$_oInstance)
-        {
-            self::$_oInstance = new self();
-        }
-
-        return self::$_oInstance;
-    }
-
     /**
      * @param string $sElementDirectory
      * @return $this
      */
-    public function setElementDirectory(string $sElementDirectory)
+    protected function setElementDirectory(string $sElementDirectory)
     {
         $this->_sElementDirectory = $sElementDirectory;
 
@@ -283,7 +276,7 @@ class Phormix
      * @param string $sClass
      * @return $this
      */
-    public function setValidateClass(string $sClass)
+    protected function setValidateClass(string $sClass)
     {
         $this->_sValidateClass = $sClass;
 
@@ -294,7 +287,7 @@ class Phormix
      * @param string $sSanitizeClass
      * @return $this
      */
-    public function setSanitizeClass(string $sSanitizeClass)
+    protected function setSanitizeClass(string $sSanitizeClass)
     {
         $this->_sSanitizeClass = $sSanitizeClass;
 
@@ -306,7 +299,7 @@ class Phormix
      * @return $this
      * @throws \ReflectionException
      */
-    public function loadConfigYaml(string $sYamlFile)
+    protected function loadConfigYaml(string $sYamlFile)
     {
         $sYaml = '';
         $sYaml.= '# ' . $sYamlFile . PHP_EOL;
@@ -353,9 +346,27 @@ class Phormix
             );
         }
 
-        $this->sFormIdentifier = md5(Convert::serialize($this->aConfig));
-
         return $this;
+    }
+
+    #-------------------------------------------------------------------------------------------------------------------
+    # public
+
+    /**
+     * @param array $aSetup
+     * @return mixed|self
+     * @throws \ReflectionException
+     */
+    public static function init(array $aSetup = array())
+    {
+        $sKey = md5(json_encode($aSetup));
+
+        if (false === array_key_exists($sKey, self::$_aInstance))
+        {
+            self::$_aInstance[$sKey] = new self($aSetup);
+        }
+
+        return self::$_aInstance[$sKey];
     }
 
     /**
@@ -383,6 +394,14 @@ class Phormix
         $GLOBALS['_' . strtoupper( ($this->aConfig['form']['method'] ?? 'post') )] = $this->_getFormDataSentArray();
 
         return $this;
+    }
+
+    /**
+     * @return \MVC\Asset[]
+     */
+    public function getInstancesArray()
+    {
+        return self::$_aInstance;
     }
 
     /**
