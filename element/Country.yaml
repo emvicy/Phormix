@@ -1,5 +1,5 @@
 label: &element.Country.label Country
-explain: Please select an option
+description: Please select an option
 tag: select
 attribute:
   form: *form.id
@@ -38,8 +38,3 @@ filter:
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.
-  sanitize:
-    maxlength:
-      value: 2
-    regex:
-      value: "/[^\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"

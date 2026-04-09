@@ -7,8 +7,27 @@
 ---
 
 **added**
+
+- `\Phormix\DataType\DTPhormixSetup`: contains setup config
+- `\Phormix\Model\PhormixChain`: enabling chained forms
+
 **changed**    
+
+- `\Phormix\Model\Phormix::init`: 
+  - Multiton instead of Singleton
+  - add parameter `DTPhormixSetup $oDTPhormixSetup` 
+- Yaml element: `explain` => `description`
+
 **deprecated**
 **removed**  
+
+- `\Phormix\Model\Phormix::$_sElementDirectory`
+- `\Phormix\Model\Phormix::setElementDirectory`
+- `\Phormix\Model\Phormix::$_sValidateClass`
+- `\Phormix\Model\Phormix::setValidateClass`
+- `\Phormix\Model\Phormix::$_sSanitizeClass`
+- `\Phormix\Model\Phormix::setSanitizeClass`
+- `\Phormix\Model\PhormixSanitize`
+
 **fixed**  
 **security**

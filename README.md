@@ -1,6 +1,6 @@
 # Phormix
 
-a PHP HTML-Forms Checker, Validator, Sanitizer module  
+a PHP HTML-Forms Checker and Validator module  
 for Emvicy2 PHP Framework: https://github.com/emvicy/Emvicy/tree/2.x
 
 ## Overview
@@ -43,7 +43,7 @@ Each declaration...
 should have:
 
 - `label`: (string)
-- `explain`: (string)
+- `description`: (string)
 
 must have: 
 
@@ -54,7 +54,6 @@ may have:
 
 - `filter`:
     - `validate`: (array)
-    - `sanitize`: (array)
 
 
 #### 1.1 Examples <a id="1-1"></a>
@@ -62,7 +61,7 @@ may have:
 *`MAX_FILE_SIZE.yaml`*  
 ~~~yaml
 label: &element.MAX_FILE_SIZE.label MAX_FILE_SIZE
-explain: &element.MAX_FILE_SIZE.explain 'You can upload files up to 10 MB in size'
+description: &element.MAX_FILE_SIZE.description 'You can upload files up to 10 MB in size'
 tag: input
 attribute:
   type: hidden
@@ -74,7 +73,7 @@ attribute:
 _`Firstname.yaml`_
 ~~~yaml
 label: &element.Firstname.label Firstname
-explain:
+description:
 tag: input
 attribute:
   type: text
@@ -105,15 +104,6 @@ filter:
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.
-  sanitize:
-    maxlength:
-      value: *element.Firstname.attribute.maxlength
-      message:
-        fail: The maximum length is %s characters. The input was reduced accordingly.
-    regex:
-      value: "/[^\\p{L}\\p{Zs}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.]/u"
-      message:
-        fail: Disvalued characters removed.
 ~~~
 
 see folder `Phormix/element` for all examples.
@@ -172,11 +162,12 @@ element:
 _Inside of your Controller method_  
 ~~~php
 // start
-$oPhormix = Phormix::init(array(
-    'sElementDirectory' => '/path/to/element/dir/',
-    'sConfigYamlFile' => '/path/to/formular.yaml',
-    'sValidateClass' => '\Phormix\Model\PhormixValidate',
-));    
+$oPhormix = Phormix::init(
+    DTPhormixSetup::create()
+        ->set_sConfigYamlFile('/path/to/formular.yaml')
+        ->set_sElementDirectory('/path/to/element/folder/')
+        ->set_sValidateClass('\Phormix\Model\PhormixValidate')
+); 
     
 // run Phormix
 $oPhormix->run();
@@ -298,7 +289,7 @@ modify before calling `$oPhormix->run();`
 
 **Examples**
 
-_add filetype "text/plain" to the "Upload" element (and leave the element config files unchanged)_   
+_add filetype "text/plain" to the "Upload" element filter/validate (and leave the element config files unchanged)_   
 ~~~php
 [..]
     
@@ -317,13 +308,13 @@ _modify max filesize to 2MB (and leave the element config files unchanged)_
 ~~~php
 [..]
 
-// modify "MAX_FILE_SIZE" element filesize and "explain" text
+// modify "MAX_FILE_SIZE" element filesize and "description" text
 $oPhormix->aConfig['element']['MAX_FILE_SIZE']['attribute']['value'] = 2097152; # 2MB
-$oPhormix->aConfig['element']['MAX_FILE_SIZE']['explain'] = 'You can upload files up to ' . $oPhormix->aConfig['element']['MAX_FILE_SIZE']['attribute']['value'] . ' Bytes in size';
+$oPhormix->aConfig['element']['MAX_FILE_SIZE']['description'] = 'You can upload files up to ' . $oPhormix->aConfig['element']['MAX_FILE_SIZE']['attribute']['value'] . ' Bytes in size';
 
-// modify "Upload" element filesize and "explain" text
+// modify "Upload" element filesize and "description" text
 $oPhormix->aConfig['element']['Upload']['attribute']['required'] = true;
-$oPhormix->aConfig['element']['Upload']['explain'] = $oPhormix->aConfig['element']['MAX_FILE_SIZE']['explain'];
+$oPhormix->aConfig['element']['Upload']['description'] = $oPhormix->aConfig['element']['MAX_FILE_SIZE']['description'];
 $oPhormix->aConfig['element']['Upload']['filter']['validate']['filemaxfilesize']['value'] = $oPhormix->aConfig['element']['MAX_FILE_SIZE']['attribute']['value'];
             
 // run Phormix

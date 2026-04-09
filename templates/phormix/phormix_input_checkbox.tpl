@@ -18,9 +18,9 @@
             id="{$element.attribute.id}{$data.label}"
             class="form-check-input"
     >
-    {if true === isset($element.explain)}
+    {if true === isset($element.description)}
         <div class="form-text">
-            {$element.explain}
+            {$element.description}
         </div>
     {/if}
 {/capture}

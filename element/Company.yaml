@@ -1,5 +1,5 @@
 label: &element.Company.label Company
-explain:
+description:
 tag: input
 attribute:
   type: text
@@ -30,8 +30,3 @@ filter:
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.
-  sanitize:
-    maxlength:
-      value: *element.Company.attribute.maxlength
-    regex:
-      value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,?!&]/u"

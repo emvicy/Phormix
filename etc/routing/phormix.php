@@ -37,10 +37,10 @@ $oDTRoutingAdditional = \MVC\DataType\DTRoutingAdditional::create()
     sTag: 'phormix_profile',
 );
 
-//// formular "Chain"
-//\MVC\Route::MIX(['GET', 'POST'],
-//    sPath: '/phormix/chain',
-//    sClassMethod: '\Phormix\Controller\Chain::formular',
-//    mOptional: clone $oDTRoutingAdditional->set_sTitle('multi-page form "Chain1|2|3"')->set_sContent('phormix/phormix_formular_chain.tpl'),
-//    sTag: 'phormix_chain',
-//);
+// formular "Chain"
+\MVC\Route::MIX(['GET', 'POST'],
+    sPath: '/phormix/chain',
+    sClassMethod: '\Phormix\Controller\Chain::formular',
+    mOptional: clone $oDTRoutingAdditional->set_sTitle('multi-page form "Chain1|2|3"')->set_sContent('phormix/phormix_formular_chain.tpl'),
+    sTag: 'phormix_chain',
+);

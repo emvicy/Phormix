@@ -53,17 +53,15 @@ Bootstrap
 <div id="formular">
 
     <!--breadcrumb-->
-    {if isset($aChain)}
+    {if isset($oDTPhormixChain)}
         <h2>Breadcrumb</h2>
         <nav style="--bs-breadcrumb-divider: '➤';background-color: whitesmoke;border: 1px solid #DEE2E6;" aria-label="breadcrumb">
             <ol class="breadcrumb padding20">
-            {assign var=iCount value=0}
-            {foreach $aChain as $iIndex => $aData}
-                {assign var=iCount value=($iCount+1)}
-                <li class="breadcrumb-item">
-                    <a href="?step={$iCount}" class="btn btn-sm btn-outline-primary">Step {$iCount}: "{$aData.label}"</a>
-                </li>
-            {/foreach}
+                {foreach $oDTPhormixChain->get_aDTPhormixSetup() as $iIndex => $oDTPhormixSetup}
+                    <li class="breadcrumb-item">
+                        <a href="?step={$iIndex+1}" class="btn btn-sm btn-outline-primary">Step {$iIndex+1}: "{$oDTPhormixSetup->get_sLabel()}"</a>
+                    </li>
+                {/foreach}
             </ol>
         </nav>
     {/if}
@@ -105,7 +103,7 @@ Bootstrap
         </div>
 
         <b>Data:</b>
-        {MVC\Strings::ulli($smarty.session.Chain)}
+        {MVC\Strings::ulli($aData)}
 
         {if false === empty($aFiles)}
             <br>

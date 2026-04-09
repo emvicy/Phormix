@@ -1,5 +1,5 @@
 label: &element.Telephone.label Telephone
-explain: Please make sure your number begins with a `0` or a `+`
+description: Please make sure your number begins with a `0` or a `+`
 tag: input
 attribute:
   type: text
@@ -30,8 +30,3 @@ filter:
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.
-  sanitize:
-    maxlength:
-      value: *element.Telephone.attribute.maxlength
-    regex:
-      value: "/[^\\w\\d\\p{Zs}\\p{Nd}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]/u"

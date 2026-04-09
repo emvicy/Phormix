@@ -1,5 +1,5 @@
 label: &element.Description.label Description
-explain:
+description:
 tag: input
 attribute:
   type: text
@@ -14,9 +14,3 @@ attribute:
   autocomplete: false
   required: true
   disabled: false
-filter:
-  sanitize:
-    maxlength:
-      value: *element.Description.attribute.maxlength
-    regex:
-      value: "/[^\\w\\d\\p{L}\\p{Zs}\\p{Nd}\\p{M}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}&,.?!]/u"

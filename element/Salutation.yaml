@@ -1,5 +1,5 @@
 label: &element.Salutation.label Salutation
-explain: Please select your preferred title
+description: Please select your preferred title
 tag: input
 attribute:
   type: radio
@@ -25,16 +25,16 @@ filter:
     expect:
       value:
         - label: Mr
-          explain: Mister / male
+          description: Mister / male
           value: Mr
         - label: Mrs
-          explain: Mistress; married woman / female
+          description: Mistress; married woman / female
           value: Mrs
         - label: Ms
-          explain: Miss; unmarried woman / female
+          description: Miss; unmarried woman / female
           value: Ms
         - label: unspecific
-          explain: unspecific
+          description: unspecific
           value: unspecific
       message:
         fail: Invalid entry.
@@ -48,14 +48,3 @@ filter:
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.
-  sanitize:
-    maxlength:
-      value: *element.Salutation.attribute.maxlength
-      message:
-        fail: The maximum length is %s characters . The input was reduced accordingly.
-        success: The maximum length of % s characters has not been exceeded.
-    regex:
-      value: "/[^\\p{L}\\p{Zs}]/u"
-      message:
-        fail: Disvalued characters removed.
-        success: The entry must not be cleaned.

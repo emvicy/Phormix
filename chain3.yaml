@@ -3,7 +3,7 @@ form:
   name: Chain3
   action: ""
   method: "post"
-#  enctype: "multipart/form-data" # enabling uploading files
+  enctype: "multipart/form-data" # enabling uploading files
 element:
   # names have to match to existing equal named files (without suffix) in $_sElementDirectory (see /Phormix/element/)
 #  - Salutation
@@ -22,6 +22,6 @@ element:
   - Description
 #  - Message
 #  - Captcha
-#  # Upload
-#  - MAX_FILE_SIZE
-#  - Upload
+  # Upload
+  - MAX_FILE_SIZE
+  - Upload

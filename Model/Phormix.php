@@ -13,6 +13,7 @@ use MVC\Error;
 use MVC\Log;
 use MVC\Media\Type_Application_json;
 use MVC\Media\Type_Text_plain;
+use Phormix\DataType\DTPhormixSetup;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -21,19 +22,19 @@ use Symfony\Component\Yaml\Yaml;
 class Phormix
 {
     /**
-     * @var array
+     * @var \Phormix\Model\Phormix[]
      */
     protected static $_aInstance = [];
+
+    /**
+     * @var \Phormix\DataType\DTPhormixSetup
+     */
+    protected $_oDTPhormixSetup;
 
     /**
      * @var string
      */
     protected $_sPrefix = 'Phormix';
-
-    /**
-     * @var string
-     */
-    protected $_sElementDirectory = '';
 
     /**
      * @var array
@@ -44,16 +45,6 @@ class Phormix
      * @var array
      */
     protected $_aError = array();
-
-    /**
-     * @var string
-     */
-    protected $_sValidateClass = '\Phormix\Model\PhormixValidate';
-
-    /**
-     * @var string
-     */
-    protected $_sSanitizeClass = '\Phormix\Model\PhormixSanitize';
 
     /**
      * @var mixed
@@ -86,18 +77,14 @@ class Phormix
     protected function __clone() { }
 
     /**
-     * @param string $sYamlFile
-     * @param string $sElementFolder
+     * @param \Phormix\DataType\DTPhormixSetup $oDTPhormixSetup
      * @throws \ReflectionException
      */
-    protected function __construct(array $aSetup = array())
+    protected function __construct(DTPhormixSetup $oDTPhormixSetup)
     {
-        $this->setElementDirectory($aSetup['sElementDirectory']);
-
-        $this->loadConfigYaml($aSetup['sConfigYamlFile']);
-        $this->sFormIdentifier = md5(Convert::serialize($this->aConfig));
-
-        $this->setValidateClass($aSetup['sValidateClass']);
+        $this->_oDTPhormixSetup = $oDTPhormixSetup;
+        $this->aConfig = $this->loadConfigYaml();
+        $this->sFormIdentifier = md5(json_encode($this->aConfig));
     }
 
     /**
@@ -106,7 +93,7 @@ class Phormix
     protected function _getFormDataSentArray()
     {
         // get data sent by form
-        return $GLOBALS['_' . strtoupper( ($this->aConfig['form']['method'] ?? 'post') )];
+        return ($GLOBALS['_' . strtoupper( ($this->aConfig['form']['method'] ?? 'post') )] ?? array());
     }
 
     /**
@@ -114,18 +101,20 @@ class Phormix
      * @return bool success
      * @throws \ReflectionException
      */
-    protected function _check($aData)
+    protected function _check($aData, bool $bResetOnEmpty = true)
     {
         // ticket
-        if (
-            true === empty(($aData[$this->_getSessionInfo('sTicket')] ?? '')) ||
-            false === ($aData[$this->_getSessionInfo('sTicket')] === $aData[$this->_getSessionInfo('sTicket')])
-        )
+        if (true === empty(($aData[$this->_getSessionInfo('sTicket')] ?? '')))
         {
+            if (true === $bResetOnEmpty)
+            {
+                $this->reset(bForce: true);
+            }
+
             return false;
         }
 
-        // remove ticket + formidentifier
+        // remove ticket + formidentifier from sent data array
         unset($aData[$this->_getSessionInfo('sTicket')]);
         unset($aData[$this->sFormIdentifier]);
 
@@ -164,7 +153,8 @@ class Phormix
                     // or it is not but then there has to be a value that can be checked
                     if (true === $bRequired || (false === $bRequired && false === empty($aData[$sAttributeName])))
                     {
-                        $bElementIsValid = $this->_sValidateClass::$sValidateMethod(
+                        $sValidateClass = $this->_oDTPhormixSetup->get_sValidateClass();
+                        $bElementIsValid = $sValidateClass::$sValidateMethod(
                             $aData[$sAttributeName],
                             $aValue['value']
                         );
@@ -205,11 +195,6 @@ class Phormix
                 }
             }
         }
-
-//        foreach ($aSanitize as $sKey => $aValue)
-//        {
-//
-//        }
 
         #----------
         # success
@@ -262,51 +247,23 @@ class Phormix
     }
 
     /**
-     * @param string $sElementDirectory
-     * @return $this
-     */
-    protected function setElementDirectory(string $sElementDirectory)
-    {
-        $this->_sElementDirectory = $sElementDirectory;
-
-        return $this;
-    }
-
-    /**
-     * @param string $sClass
-     * @return $this
-     */
-    protected function setValidateClass(string $sClass)
-    {
-        $this->_sValidateClass = $sClass;
-
-        return $this;
-    }
-
-    /**
-     * @param string $sSanitizeClass
-     * @return $this
-     */
-    protected function setSanitizeClass(string $sSanitizeClass)
-    {
-        $this->_sSanitizeClass = $sSanitizeClass;
-
-        return $this;
-    }
-
-    /**
      * @param string $sYamlFile
-     * @return $this
+     * @return array
      * @throws \ReflectionException
      */
-    protected function loadConfigYaml(string $sYamlFile)
+    protected function loadConfigYaml(string $sYamlFile = '')
     {
+        if (true === empty($sYamlFile))
+        {
+            $sYamlFile = $this->_oDTPhormixSetup->get_sConfigYamlFile();
+        }
+
         $sYaml = '';
         $sYaml.= '# ' . $sYamlFile . PHP_EOL;
         $sYaml.= file_get_contents($sYamlFile) . PHP_EOL;
 
         try {
-            $aConfig = Yaml::parseFile($sYamlFile);
+            $aConfigFormularYaml = (array) Yaml::parseFile($sYamlFile);
         } catch (\Exception $oException) {
             Error::exception($oException);
             Debug::stop(
@@ -318,9 +275,9 @@ class Phormix
         $sYaml = substr($sYaml, 0, strpos($sYaml, 'element:'));
         $sYaml.= 'element:' . PHP_EOL;
 
-        foreach ($aConfig['element'] as $sElement)
+        foreach (($aConfigFormularYaml['element'] ?? []) as $sElement)
         {
-            $sYamlFileSub = $this->_sElementDirectory . $sElement . '.yaml';
+            $sYamlFileSub = $this->_oDTPhormixSetup->get_sElementDirectory() . $sElement . '.yaml';
             $sYaml.= PHP_EOL . "\t" . '# ' . $sYamlFileSub . PHP_EOL;
             $sYaml.= "\t" . $sElement . ':' . PHP_EOL;
             $rFile = fopen($sYamlFileSub, "r");
@@ -331,14 +288,15 @@ class Phormix
                 {
                     $sYaml.= "\t\t" . $sLine;
                 }
+
                 fclose($rFile);
             }
 
-            $sYaml = str_replace("\t", '  ', $sYaml); # \t wont work
+            $sYaml = str_replace("\t", '  ', $sYaml); # remove, because \t won't work
         }
 
         try {
-            $this->aConfig = Yaml::parse($sYaml);
+            $aConfigFinal = (array) Yaml::parse($sYaml);
         } catch (\Exception $oException) {
             Error::exception($oException);
             Debug::stop(
@@ -346,34 +304,36 @@ class Phormix
             );
         }
 
-        return $this;
+        return ($aConfigFinal ?? array());
     }
 
     #-------------------------------------------------------------------------------------------------------------------
     # public
 
     /**
-     * @param array $aSetup
-     * @return mixed|self
+     * @param \Phormix\DataType\DTPhormixSetup $oDTPhormixSetup
+     * @return \Phormix\Model\Phormix|self
      * @throws \ReflectionException
      */
-    public static function init(array $aSetup = array())
+    public static function init(DTPhormixSetup $oDTPhormixSetup)
     {
-        $sKey = md5(json_encode($aSetup));
+        $sKey = md5(Convert::serialize($oDTPhormixSetup));
 
         if (false === array_key_exists($sKey, self::$_aInstance))
         {
-            self::$_aInstance[$sKey] = new self($aSetup);
+            /** Phormix self::$_aInstance[$sKey] */
+            self::$_aInstance[$sKey] = new self($oDTPhormixSetup);
         }
 
         return self::$_aInstance[$sKey];
     }
 
     /**
+     * @param bool $bResetOnEmpty
      * @return $this
      * @throws \ReflectionException
      */
-    public function run()
+    public function run(bool $bResetOnEmpty = true)
     {
         $aData = $this->_getFormDataSentArray();
 
@@ -381,7 +341,7 @@ class Phormix
         if (false === empty($aData))
         {
             $this->bSent = true;
-            $this->bSuccess = $this->_check($aData);
+            $this->bSuccess = $this->_check($aData, $bResetOnEmpty);
         }
 
         // generate new ticket for current request

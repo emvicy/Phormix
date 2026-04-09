@@ -1,5 +1,5 @@
 label: &element.Captcha.label Captcha
-explain: &element.Captcha.explain Please enter the Captcha code shown here
+description: &element.Captcha.description Please enter the Captcha code shown here
 tag: input
 attribute:
   type: text

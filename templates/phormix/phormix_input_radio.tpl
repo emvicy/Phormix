@@ -21,13 +21,13 @@
             <a id="{$element.attribute.name}"></a>
             <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
                 {$data.label}
-                {if true === isset($data.explain)}
-                    <div class="form-text">{$data.explain}</div>
+                {if true === isset($data.description)}
+                    <div class="form-text">{$data.description}</div>
                 {/if}
             </label>
         </div>
     {/foreach}
-    {if true === isset($element.explain)}<br><span class="form-text">{$element.explain}</span>{/if}
+    {if true === isset($element.description)}<br><span class="form-text">{$element.description}</span>{/if}
 {/capture}
 {$sCapture|tidyMarkup}
 <!--/input:radio-->

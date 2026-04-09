@@ -1,5 +1,5 @@
 label: &element.MAX_FILE_SIZE.label MAX_FILE_SIZE
-explain: &element.MAX_FILE_SIZE.explain 'You can upload files up to 10 MB in size'
+description: &element.MAX_FILE_SIZE.description 'You can upload files up to 10 MB in size'
 tag: input
 attribute:
   type: hidden

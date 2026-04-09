@@ -6,7 +6,7 @@
 #   - Upload
 #--------------------------------------------
 label: &element.Upload.label Upload PDF files
-explain: 'You can upload files up to 10 MB in size'
+description: 'You can upload files up to 10 MB in size'
 tag: input
 attribute:
   type: file

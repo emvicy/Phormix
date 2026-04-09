@@ -16,9 +16,9 @@
             {/foreach}
             class="form-control"
     >{if true === isset($aSent[$element.attribute.name])}{$aSent[$element.attribute.name]}{/if}</textarea>
-    {if true === isset($element.explain)}
+    {if true === isset($element.description)}
         <div class="form-text">
-            {$element.explain}
+            {$element.description}
         </div>
     {/if}
 {/capture}

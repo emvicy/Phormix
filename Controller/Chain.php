@@ -10,7 +10,10 @@ use MVC\DataType\DTFileUpload;
 use MVC\DataType\DTRequestIn;
 use MVC\DataType\DTRoute;
 use MVC\Session;
+use Phormix\DataType\DTPhormixChain;
+use Phormix\DataType\DTPhormixSetup;
 use Phormix\Model\Phormix;
+use Phormix\Model\PhormixChain;
 
 
 class Chain extends _Master
@@ -24,6 +27,11 @@ class Chain extends _Master
      * @var \Phormix\Model\Phormix|null
      */
     protected $oPhormix;
+
+    /**
+     * @var DTPhormixChain
+     */
+    protected $oDTPhormixChain;
 
     /**
      * @return void
@@ -43,64 +51,71 @@ class Chain extends _Master
     {
         parent::__construct($oDTRequestIn, $oDTRoute);
 
-        // declare chained forms
-        $this->aChain = array(
-            1 => array(
-                'label' => 'Name / Company',
-                'yaml' => Config::get_MVC_MODULES_DIR() . '/Phormix/chain1.yaml',
-            ),
-            2 => array(
-                'label' => 'Address',
-                'yaml' => Config::get_MVC_MODULES_DIR() . '/Phormix/chain2.yaml',
-            ),
-            3 => array(
-                'label' => 'Submit data',
-                'yaml' => Config::get_MVC_MODULES_DIR() . '/Phormix/chain3.yaml',
-            ),
-        );
-
-        (false === isset($_SESSION['Chain']['step']))
-            ? $_SESSION['Chain']['step'] = 1
-            : false
-        ;
-
-        // jump between forms
-        (false === empty($oDTRequestIn->get_queryArray()['step'] ?? ''))
-            ? $_SESSION['Chain']['step'] = (int) $oDTRequestIn->get_queryArray()['step']
-            : false
-        ;
-
-        $this->setPhormix();
-
-        // Form was successfully sent; Validation succeeded
-        if (true === $this->oPhormix->bSuccess)
-        {
-            // save
-            $_SESSION['Chain'][$_SESSION['Chain']['step']]['sFormIdentifier'] = $this->oPhormix->sFormIdentifier;
-            $_SESSION['Chain'][$_SESSION['Chain']['step']]['aData'] = $this->oPhormix->getDataAccepted();
-            $_SESSION['Chain'][$_SESSION['Chain']['step']]['aFiles'] = (false === empty($_FILES)) ? DTFileUpload::create(array_first($_FILES)) : array();
-
-            // go to next formular
-            if ($_SESSION['Chain']['step'] < count($this->aChain))
-            {
-                $_SESSION['Chain']['step']++;
-
-                $this->setPhormix();
-            }
-        }
+//        // declare chained forms
+//        $this->oDTPhormixChain = DTPhormixChain::create()
+//            ->add_aDTPhormixSetup(DTPhormixSetup::create()
+//                ->set_sLabel('Name / Company')
+//                ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/chain1.yaml')
+//                ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+//                ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
+//            ->add_aDTPhormixSetup(DTPhormixSetup::create()
+//                ->set_sLabel('Address')
+//                ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/chain2.yaml')
+//                ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+//                ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
+//            ->add_aDTPhormixSetup(DTPhormixSetup::create()
+//                ->set_sLabel('Submit data')
+//                ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/chain3.yaml')
+//                ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+//                ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
+//        ;
+//        view()->assign('oDTPhormixChain', $this->oDTPhormixChain);
+//
+//        (false === isset($_SESSION['Chain']['step']))
+//            ? $_SESSION['Chain']['step'] = 0
+//            : false
+//        ;
+//
+//        // jump between forms by query param "step"
+//        (false === empty($oDTRequestIn->get_queryArray()['step'] ?? ''))
+//            ? $_SESSION['Chain']['step'] = (int) ($oDTRequestIn->get_queryArray()['step'] - 1)
+//            : false
+//        ;
+//
+//        $this->setPhormix();
+//
+//        // make sure action ist just the route path (no query param "step")
+//        $this->oPhormix->aConfig['form']['action'] = $oDTRoute->get_path();
+//
+//        // Form was successfully sent; Validation succeeded
+//        if (true === $this->oPhormix->bSuccess)
+//        {
+//            // save
+//            $_SESSION['Chain'][$_SESSION['Chain']['step']]['sFormIdentifier'] = $this->oPhormix->sFormIdentifier;
+//            $_SESSION['Chain'][$_SESSION['Chain']['step']]['aData'] = $this->oPhormix->getDataAccepted();
+//            $_SESSION['Chain'][$_SESSION['Chain']['step']]['aFiles'] = (false === empty($_FILES)) ? DTFileUpload::create(array_first($_FILES)) : array();
+//
+//            // call next formular
+//            if ($_SESSION['Chain']['step'] < (count($this->oDTPhormixChain->get_aDTPhormixSetup()) - 1))
+//            {
+//                $_SESSION['Chain']['step']++;
+//                $this->setPhormix();
+//            }
+//        }
     }
 
-    protected function setPhormix()
-    {
-        $this->oPhormix = Phormix::init(array(
-            'sElementDirectory' => Config::get_MVC_MODULES_DIR() . '/Phormix/element/',
-            'sConfigYamlFile' => $this->aChain[$_SESSION['Chain']['step']]['yaml'],
-            'sValidateClass' => '\Phormix\Model\PhormixValidate',
-        ));
-
-        // run Phormix
-        $this->oPhormix->run();
-    }
+//    protected function setPhormix()
+//    {
+//        $this->oPhormix = Phormix::init(
+//            DTPhormixSetup::create()
+//                ->set_sConfigYamlFile($this->oDTPhormixChain->get_aDTPhormixSetup()[$_SESSION['Chain']['step']]->get_sConfigYamlFile())
+//                ->set_sElementDirectory($this->oDTPhormixChain->get_aDTPhormixSetup()[$_SESSION['Chain']['step']]->get_sElementDirectory())
+//                ->set_sValidateClass($this->oDTPhormixChain->get_aDTPhormixSetup()[$_SESSION['Chain']['step']]->get_sValidateClass())
+//        );
+//
+//        // run Phormix
+//        $this->oPhormix->run(bResetOnEmpty: false);
+//    }
 
     /**
      * @param \MVC\DataType\DTRequestIn $oDTRequestIn
@@ -110,34 +125,51 @@ class Chain extends _Master
      */
     public function formular(DTRequestIn $oDTRequestIn, DTRoute $oDTRoute)
     {
-        // show config
-        $this->showConfigOnDemand($this->oPhormix);
+        $oDTPhormixChain = DTPhormixChain::create()
+            ->add_aDTPhormixSetup(DTPhormixSetup::create()
+                ->set_sLabel('Name / Company')
+                ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/chain1.yaml')
+                ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+                ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
+            ->add_aDTPhormixSetup(DTPhormixSetup::create()
+                ->set_sLabel('Address')
+                ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/chain2.yaml')
+                ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+                ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
+            ->add_aDTPhormixSetup(DTPhormixSetup::create()
+                ->set_sLabel('Submit data')
+                ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/chain3.yaml')
+                ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+                ->set_sValidateClass('\Phormix\Model\PhormixValidate'));
+        $oPhormixChain = new PhormixChain($oDTRequestIn, $oDTPhormixChain);
+        $oPhormix = $oPhormixChain->getPhormix();
+        $oPhormix = $oPhormixChain->setActionOnRoutePath($oDTRoute, $oPhormix);
+        $oPhormix = $oPhormixChain->proceed($oPhormix);
 
-        info(
-            $this->oPhormix
-        );
-        info(
-            $_SESSION
-        );
+        // show config
+        $this->showConfigOnDemand($oPhormix);
 
         // create new captcha text; take identifier from config
-        $sCaptchaId = ($this->oPhormix->aConfig['element']['Captcha']['attribute']['id'] ?? 'Captcha');
+        $sCaptchaId = ($oPhormix->aConfig['element']['Captcha']['attribute']['id'] ?? 'Captcha');
         Session::is('Phormix')->set($sCaptchaId, \Phimcap::text());
 
-        if (true === $this->oPhormix->bSuccess)
+        if (true === $oPhormix->bSuccess)
         {
-            info(
-                array_column($_SESSION['Chain'], 'aData')
-            );
-            info(
-                array_column($_SESSION['Chain'], 'aFiles')
-            );
+            // get Data Array
+            $aData = (array_column($_SESSION['Chain'], 'aData') ?? array());
+
+            // get uploaded Files
+            $aFiles = current((array_column($_SESSION['Chain'], 'aFiles') ?? array()));
+
+            // reset
+            $oPhormixChain->reset($oPhormix);
         }
 
-        view()->assign('oPhormix', $this->oPhormix);
+        view()->assign('oDTPhormixChain', $oDTPhormixChain);
+        view()->assign('oPhormix', $oPhormix);
         view()->assign('oDTRoute', $oDTRoute);
-        view()->assign('aFiles', $_FILES);
-        view()->assign('aChain', $this->aChain);
+        view()->assign('aData', ($aData ?? array()));
+        view()->assign('aFiles', ($aFiles ?? array()));
         view()->autoAssign();
     }
 

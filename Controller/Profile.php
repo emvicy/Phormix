@@ -10,6 +10,7 @@ use MVC\DataType\DTFileUpload;
 use MVC\DataType\DTRequestIn;
 use MVC\DataType\DTRoute;
 use MVC\Session;
+use Phormix\DataType\DTPhormixSetup;
 use Phormix\Model\Phormix;
 
 
@@ -42,11 +43,13 @@ class Profile extends _Master
      */
     public function formular(DTRequestIn $oDTRequestIn, DTRoute $oDTRoute)
     {
-        $oPhormix = Phormix::init(array(
-            'sElementDirectory' => Config::get_MVC_MODULES_DIR() . '/Phormix/element/',
-            'sConfigYamlFile' => Config::get_MVC_MODULES_DIR() . '/Phormix/profile.yaml',
-            'sValidateClass' => '\Phormix\Model\PhormixValidate',
-        ));
+        $oPhormix = Phormix::init(
+            DTPhormixSetup::create()
+                ->set_sLabel('This is my formular')
+                ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/profile.yaml')
+                ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+                ->set_sValidateClass('\Phormix\Model\PhormixValidate')
+        );
 
         // run Phormix
         $oPhormix->run();
@@ -60,8 +63,11 @@ class Profile extends _Master
             // get Data Array
             $aData = $oPhormix->getDataAccepted();
 
-            // get uploaded Files DT Class
-            $oDTFileUpload = DTFileUpload::create(array_first($_FILES));
+            // get uploaded Files
+            $aFiles = $_FILES;
+
+            // reset
+            $oPhormix->reset(bForce: true);
         }
 
         // create new captcha text; take identifier from config
@@ -70,7 +76,8 @@ class Profile extends _Master
 
         view()->assign('oPhormix', $oPhormix);
         view()->assign('oDTRoute', $oDTRoute);
-        view()->assign('aFiles', $_FILES);
+        view()->assign('aData', ($aData ?? array()));
+        view()->assign('aFiles', ($aFiles ?? array()));
         view()->autoAssign();
     }
 

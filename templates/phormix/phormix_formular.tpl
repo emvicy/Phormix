@@ -35,14 +35,14 @@ Bootstrap
 <table class="table table-striped table-hover table-sm table-bordered">
     <thead>
         <tr>
-            <th><code>&lt;form&gt;</form></code> attribute</th>
+            <th><code>&lt;form attribute&gt;</code> </th>
             <th>value</th>
         </tr>
     </thead>
     <tbody>
     {foreach $oPhormix->aConfig.form as $attribute => $value}
         <tr>
-            <td>{$attribute}</td>
+            <td><code>{$attribute}</code></td>
             <td><kbd>{$value}</kbd></td>
         </tr>
     {/foreach}
@@ -51,25 +51,6 @@ Bootstrap
 <!--/info-->
 
 <div id="formular">
-
-    <!--breadcrumb-->
-    {if isset($aChain)}
-        <h2>Breadcrumb</h2>
-        <nav style="--bs-breadcrumb-divider: '➤';background-color: whitesmoke;border: 1px solid #DEE2E6;" aria-label="breadcrumb">
-            <ol class="breadcrumb padding20">
-            {assign var=iCount value=0}
-            {foreach $aChain as $iIndex => $aData}
-                {assign var=iCount value=($iCount+1)}
-                <li class="breadcrumb-item">
-                    <a href="?step={$iCount}" class="btn btn-sm btn-outline-primary">Step {$iCount}: "{$aData.label}"</a>
-                </li>
-            {/foreach}
-            </ol>
-        </nav>
-    {/if}
-    <!--/breadcrumb-->
-
-    <br>
 
     <!--messages-->
     {if false === empty($oPhormix->getErrorArray())}
@@ -105,7 +86,7 @@ Bootstrap
         </div>
 
         <b>Data:</b>
-        {MVC\Strings::ulli($oPhormix->getDataAccepted())}
+        {MVC\Strings::ulli($aData)}
 
         {if false === empty($aFiles)}
             <br>
