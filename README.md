@@ -175,17 +175,21 @@ $oPhormix->run();
 // form was successfully sent + validated
 if (true === $oPhormix->bSuccess)
 {
-    // get Data Array sent by Formular
-    $aFormData = $oPhormix->getDataAccepted();
+    // get Data Array
+    $aData = $oPhormix->getDataAccepted();
 
-    // get uploaded Files DT Class
-    $oDTFileUpload = DTFileUpload::create(array_first($_FILES));    
+    // get uploaded Files
+    $aFiles = $_FILES;
+
+    // reset
+    $oPhormix->reset(bForce: true);    
 }
 
 // assign to view
 view()->assign('oPhormix', $oPhormix);
 view()->assign('oDTRoute', $oDTRoute);
-
+view()->assign('aData', ($aData ?? array()));
+view()->assign('aFiles', ($aFiles ?? array()));
 view()->autoAssign();
 ~~~
 
