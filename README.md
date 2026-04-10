@@ -207,7 +207,7 @@ $oDTPhormixChain = DTPhormixChain::create()
       DTPhormixSetup::create()
           ->set_sLabel('Name / Company')
           ->set_sConfigYamlFile('/path/to/formular_1.yaml')
-          ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+          ->set_sElementDirectory('/path/to/element/folder/')
           ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
     ->add_aDTPhormixSetup(
       DTPhormixSetup::create()
