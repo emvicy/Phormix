@@ -6,7 +6,6 @@
 namespace Phormix\Controller;
 
 use MVC\Config;
-use MVC\DataType\DTFileUpload;
 use MVC\DataType\DTRequestIn;
 use MVC\DataType\DTRoute;
 use MVC\Session;
@@ -64,7 +63,7 @@ class Profile extends _Master
             $aData = $oPhormix->getDataAccepted();
 
             // get uploaded Files
-            $aFiles = $_FILES;
+            $aFiles = $oPhormix->getFilesAccepted();
 
             // reset
             $oPhormix->reset(bForce: true);

@@ -34,15 +34,15 @@ Bootstrap
 <!--info-->
 <table class="table table-striped table-hover table-sm table-bordered">
     <thead>
-        <tr>
-            <th><code>&lt;form&gt;</form></code> attribute</th>
-            <th>value</th>
-        </tr>
+    <tr>
+        <th><code>&lt;form attribute&gt;</code> </th>
+        <th>value</th>
+    </tr>
     </thead>
     <tbody>
     {foreach $oPhormix->aConfig.form as $attribute => $value}
         <tr>
-            <td>{$attribute}</td>
+            <td><code>{$attribute}</code></td>
             <td><kbd>{$value}</kbd></td>
         </tr>
     {/foreach}
@@ -59,7 +59,13 @@ Bootstrap
             <ol class="breadcrumb padding20">
                 {foreach $oDTPhormixChain->get_aDTPhormixSetup() as $iIndex => $oDTPhormixSetup}
                     <li class="breadcrumb-item">
-                        <a href="?step={$iIndex+1}" class="btn btn-sm btn-outline-primary">Step {$iIndex+1}: "{$oDTPhormixSetup->get_sLabel()}"</a>
+                        {if isset($smarty.session.Phormix.Chain.$iIndex)}
+                            <a href="?step={$iIndex+1}" class="btn btn-sm {if $iIndex === $smarty.session.Phormix.ChainStep}btn-primary{else}btn-outline-primary{/if}  {if $iIndex === $smarty.session.Phormix.ChainStep}disabled{/if}">
+                                Step {$iIndex+1}: "{$oDTPhormixSetup->get_sLabel()}"
+                            </a>
+                        {else}
+                            Step {$iIndex+1}: "{$oDTPhormixSetup->get_sLabel()}"
+                        {/if}
                     </li>
                 {/foreach}
             </ol>

@@ -1,6 +1,12 @@
 <!--input:radio-->
 {capture assign="sCapture"}
+
+    <!--get data sent by post-->
     {assign var=aSent value=$oPhormix->getDataSent()}
+    <!--get data from session-->
+    {if true === empty($aSent) && true === isset($smarty.session.Phormix.ChainStep) && true === isset($smarty.session.Phormix.Chain[$smarty.session.Phormix.ChainStep].aData)}
+        {assign var=aSent value=$smarty.session.Phormix.Chain[$smarty.session.Phormix.ChainStep].aData}
+    {/if}
 
     {$element.label} {if true === isset($element.attribute.required) && true === $element.attribute.required}<span class="text-danger">*</span>{/if}
     {foreach $element.filter.validate.expect.value as $data}

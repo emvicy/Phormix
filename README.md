@@ -8,10 +8,12 @@ for Emvicy2 PHP Framework: https://github.com/emvicy/Emvicy/tree/2.x
 - [Installation](#Installation)
 - [Usage](#Usage)
   - [1. declare Form Elements](#1)
-    - [1.1 Examples](#1-1) 
+    - [1.1 Examples](#1-1)
     - [1.2 Using Variables](#1-2)
   - [2. declare a `formular.yaml`](#2)
-  - [3. run Phormix inside of your Controller method](#3)
+  - [3. run Phormix inside your Controller method](#3)
+    - [3.1. `single-page` formular](#3-1)
+    - [3.2. `multi-page` formular (chained forms)](#3-2)
 - [Modify element config](#Modify)
 - [Demo](#Demo)
 
@@ -45,7 +47,7 @@ should have:
 - `label`: (string)
 - `description`: (string)
 
-must have: 
+must have:
 
 - `tag`: `input`|`select`|`textarea`
 - `attribute`: (array) HTML attributes
@@ -53,12 +55,12 @@ must have:
 may have:
 
 - `filter`:
-    - `validate`: (array)
+  - `validate`: (array)
 
 
 #### 1.1 Examples <a id="1-1"></a>
 
-*`MAX_FILE_SIZE.yaml`*  
+*`MAX_FILE_SIZE.yaml`*
 ~~~yaml
 label: &element.MAX_FILE_SIZE.label MAX_FILE_SIZE
 description: &element.MAX_FILE_SIZE.description 'You can upload files up to 10 MB in size'
@@ -157,9 +159,11 @@ element:
 
 ---
 
-### 3. run Phormix inside of your Controller method <a id="3"></a>
+### 3. run Phormix inside your Controller method <a id="3"></a>
 
-_Inside of your Controller method_  
+#### 3.1. single-page formular <a id="3-1"></a>
+
+_Inside your Controller method_
 ~~~php
 // start
 $oPhormix = Phormix::init(
@@ -177,15 +181,65 @@ if (true === $oPhormix->bSuccess)
 {
     // get Data Array
     $aData = $oPhormix->getDataAccepted();
-
+    
     // get uploaded Files
-    $aFiles = $_FILES;
-
+    $aFiles = $oPhormix->getFilesAccepted();
+    
     // reset
-    $oPhormix->reset(bForce: true);    
+    $oPhormix->reset(bForce: true);  
 }
 
 // assign to view
+view()->assign('oPhormix', $oPhormix);
+view()->assign('oDTRoute', $oDTRoute);
+view()->assign('aData', ($aData ?? array()));
+view()->assign('aFiles', ($aFiles ?? array()));
+view()->autoAssign();
+~~~
+
+#### 3.2. multi-page formular (chained forms) <a id="3-2"></a>
+
+_Inside your Controller method_
+~~~php
+// start
+$oDTPhormixChain = DTPhormixChain::create()
+    ->add_aDTPhormixSetup(
+      DTPhormixSetup::create()
+          ->set_sLabel('Name / Company')
+          ->set_sConfigYamlFile('/path/to/formular_1.yaml')
+          ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
+          ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
+    ->add_aDTPhormixSetup(
+      DTPhormixSetup::create()
+          ->set_sLabel('Address')
+          ->set_sConfigYamlFile('/path/to/formular_2.yaml')
+          ->set_sElementDirectory('/path/to/element/folder/')
+          ->set_sValidateClass('\Phormix\Model\PhormixValidate'))
+    ->add_aDTPhormixSetup(
+      DTPhormixSetup::create()
+          ->set_sLabel('Submit data')
+          ->set_sConfigYamlFile('/path/to/formular_3.yaml')
+          ->set_sElementDirectory('/path/to/element/folder/')
+          ->set_sValidateClass('\Phormix\Model\PhormixValidate'));
+
+$oPhormixChain = new PhormixChain($oDTRequestIn, $oDTPhormixChain);
+$oPhormix = $oPhormixChain->getPhormix();
+$oPhormix = $oPhormixChain->setActionOnRoutePath($oDTRoute, $oPhormix);
+$oPhormix = $oPhormixChain->proceed($oPhormix);
+
+if (true === $oPhormix->bSuccess)
+{
+    // get Data Array
+    $aData = $oPhormixChain->getDataAccepted();
+
+    // get uploaded Files
+    $aFiles = $oPhormixChain->getFilesAccepted();
+
+    // reset
+    $oPhormixChain->reset($oPhormix);
+}
+
+view()->assign('oDTPhormixChain', $oDTPhormixChain);
 view()->assign('oPhormix', $oPhormix);
 view()->assign('oDTRoute', $oDTRoute);
 view()->assign('aData', ($aData ?? array()));
@@ -199,7 +253,7 @@ view()->autoAssign();
 
 #### auto-creating a html formular
 
-*`modules/Phormix/templates/phormix/phormix_formular.tpl`*      
+*`modules/Phormix/templates/phormix/phormix_formular.tpl`*
 ~~~html
 <!--form-->
 {if false === $oPhormix->bSuccess}
@@ -213,23 +267,23 @@ view()->autoAssign();
     {foreach item=element from=$oPhormix->aConfig.element}
     <div class="mb-3">
       {if 'input' === $element.tag}
-          {if true === isset($element.attribute['data-element']) && 'input_captcha' === $element.attribute['data-element']}
-              {include file="phormix/phormix_input_captcha.tpl"}
-          {elseif 'checkbox' === $element.attribute.type}
-              {include file="phormix/phormix_input_checkbox.tpl"}
-          {elseif 'radio' === $element.attribute.type}
-              {include file="phormix/phormix_input_radio.tpl"}
-          {elseif 'file' === $element.attribute.type}
-              {include file="phormix/phormix_input_file.tpl"}
-          {elseif 'hidden' === $element.attribute.type}
-              {include file="phormix/phormix_input_hidden.tpl"}
-          {else}
-              {include file="phormix/phormix_input_default.tpl"}
-          {/if}
-        {elseif 'select' === $element.tag}
-            {include file="phormix/phormix_select.tpl"}
-        {elseif 'textarea' === $element.tag}
-            {include file="phormix/phormix_textarea.tpl"}
+      {if true === isset($element.attribute['data-element']) && 'input_captcha' === $element.attribute['data-element']}
+      {include file="phormix/phormix_input_captcha.tpl"}
+      {elseif 'checkbox' === $element.attribute.type}
+      {include file="phormix/phormix_input_checkbox.tpl"}
+      {elseif 'radio' === $element.attribute.type}
+      {include file="phormix/phormix_input_radio.tpl"}
+      {elseif 'file' === $element.attribute.type}
+      {include file="phormix/phormix_input_file.tpl"}
+      {elseif 'hidden' === $element.attribute.type}
+      {include file="phormix/phormix_input_hidden.tpl"}
+      {else}
+      {include file="phormix/phormix_input_default.tpl"}
+      {/if}
+      {elseif 'select' === $element.tag}
+      {include file="phormix/phormix_select.tpl"}
+      {elseif 'textarea' === $element.tag}
+      {include file="phormix/phormix_textarea.tpl"}
       {/if}
     </div>
     {/foreach}
@@ -250,17 +304,17 @@ view()->autoAssign();
 
 ~~~html
 {if false === empty($oPhormix->getErrorArray())}
-  <!--error-->
-  <ul class="list-unstyled">
-      {foreach key=sKey item=sItem from=$oPhormix->getErrorArray()}
-          {if !is_array($sItem)}
-          <li class="alert alert-danger">
-              <a href="#{$sKey}">{$sItem|escape}</a>
-          </li>
-          {/if}
-      {/foreach}
-  </ul>
-  <!--/error-->
+<!--error-->
+<ul class="list-unstyled">
+  {foreach key=sKey item=sItem from=$oPhormix->getErrorArray()}
+  {if !is_array($sItem)}
+  <li class="alert alert-danger">
+    <a href="#{$sKey}">{$sItem|escape}</a>
+  </li>
+  {/if}
+  {/foreach}
+</ul>
+<!--/error-->
 {/if}
 ~~~
 
@@ -270,15 +324,15 @@ view()->autoAssign();
 
 ~~~html
 {if false === empty($oPhormix->getMissingArray())}
-  <!--missing-->
-  <ul class="list-unstyled">
-      {foreach key=sKey item=sItem from=$oPhormix->getMissingArray()}
-      <li class="alert alert-warning">
-          Missing: "{$sItem.label|escape}"
-      </li>
-      {/foreach}
-  </ul>
-  <!--/missing-->
+<!--missing-->
+<ul class="list-unstyled">
+  {foreach key=sKey item=sItem from=$oPhormix->getMissingArray()}
+  <li class="alert alert-warning">
+    Missing: "{$sItem.label|escape}"
+  </li>
+  {/foreach}
+</ul>
+<!--/missing-->
 {/if}
 ~~~
 
@@ -288,12 +342,12 @@ view()->autoAssign();
 
 the cleanest way is to write a new element config file.
 
-But you can also modify the element config to your needs on-the-fly. Make sure to 
+But you can also modify the element config to your needs on-the-fly. Make sure to
 modify before calling `$oPhormix->run();`
 
 **Examples**
 
-_add filetype "text/plain" to the "Upload" element filter/validate (and leave the element config files unchanged)_   
+_add filetype "text/plain" to the "Upload" element filter/validate (and leave the element config files unchanged)_
 ~~~php
 [..]
     
@@ -308,7 +362,7 @@ $oPhormix->run();
 [..]
 ~~~
 
-_modify max filesize to 2MB (and leave the element config files unchanged)_      
+_modify max filesize to 2MB (and leave the element config files unchanged)_
 ~~~php
 [..]
 
@@ -334,7 +388,7 @@ $oPhormix->run();
 for a running Demo in your App, add the phormix routing folder by adding    
 the following lines to your primary module config, .e.g.: `modules/Foo/etc/config/_mvc.php`.
 
-*`modules/Foo/etc/config/_mvc.php`*    
+*`modules/Foo/etc/config/_mvc.php`*
 ~~~php
 #-----------------------------------------------------------------------------------------------------------------------
 # Phormix
@@ -350,7 +404,7 @@ after that you can call the Route `/phormix/` in your Browser.
 
 ## License
 
-**Font used for Captcha** 
+**Font used for Captcha**
 
 - "Educational Gothic V2" (EducationalGothic-Regular.otf)
   - Copyright © XYZ Co. Inc.

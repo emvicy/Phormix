@@ -199,8 +199,9 @@ class Phormix
         #----------
         # success
 
-        // save positive checked Data into session
+        // save Data into session
         $this->_setSessionInfo(sKey: 'aData', mValue: $aData);
+        $this->_setSessionInfo(sKey: 'aFiles', mValue: $_FILES);
 
         return true;
     }
@@ -400,6 +401,14 @@ class Phormix
     public function getDataAccepted()
     {
         return ($this->_getSessionInfo('aData') ?? array());
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getFilesAccepted()
+    {
+        return ($this->_getSessionInfo('aFiles') ?? array());
     }
 
     /**

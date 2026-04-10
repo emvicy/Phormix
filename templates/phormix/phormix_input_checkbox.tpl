@@ -1,6 +1,13 @@
 <!--input:checkbox-->
 {capture assign="sCapture"}
+
+    <!--get data sent by post-->
     {assign var=aSent value=$oPhormix->getDataSent()}
+    <!--get data from session-->
+    {if true === empty($aSent) && true === isset($smarty.session.Phormix.ChainStep) && true === isset($smarty.session.Phormix.Chain[$smarty.session.Phormix.ChainStep].aData)}
+        {assign var=aSent value=$smarty.session.Phormix.Chain[$smarty.session.Phormix.ChainStep].aData}
+    {/if}
+
     <a id="{$element.attribute.name}"></a>
     <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
         {$element.label}
