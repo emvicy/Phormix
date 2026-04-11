@@ -10,6 +10,7 @@ element:
 #  - Firstname
 #  - Surname
 #  - Company
+
   - Street
   - Postcode
   - City
@@ -19,7 +20,9 @@ element:
   - Fax
   - Mobile
   - Email
+
 #  - Description
+#  - PrivacyPolicy
 #  - Message
 #  - Captcha
 #  # Upload

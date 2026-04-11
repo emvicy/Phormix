@@ -50,6 +50,9 @@ class Profile extends _Master
                 ->set_sValidateClass('\Phormix\Model\PhormixValidate')
         );
 
+        // modify description text of "PrivacyPolicy"
+        $oPhormix->aConfig['element']['PrivacyPolicy']['description'].= '<br>Privacy policy <a href="https://www.example.com/" target="_blank">https://www.example.com/</a>';
+
         // run Phormix
         $oPhormix->run();
 

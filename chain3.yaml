@@ -10,6 +10,7 @@ element:
 #  - Firstname
 #  - Surname
 #  - Company
+
 #  - Street
 #  - Postcode
 #  - City
@@ -19,9 +20,11 @@ element:
 #  - Fax
 #  - Mobile
 #  - Email
+
   - Description
-#  - Message
-#  - Captcha
+  - PrivacyPolicy
+  - Message
+  - Captcha
   # Upload
   - MAX_FILE_SIZE
   - Upload

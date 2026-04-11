@@ -19,13 +19,13 @@
                             {$attribute}="{$value}"
                         {/if}
                     {/foreach}
-                    id="{$element.attribute.id}{$data.value}"
+                    id="id_{$element.attribute.id}{$data.value}"
                     value="{$data.value}"
                     class="form-check-input"
                     {if true === isset($aSent[$element.attribute.name]) && $aSent[$element.attribute.name] === $data.value}checked{/if}
             >
             <a id="{$element.attribute.name}"></a>
-            <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
+            <label for="id_{$element.attribute.id}{$data.label}" class="form-check-label">
                 {$data.label}
                 {if true === isset($data.description)}
                     <div class="form-text">{$data.description}</div>

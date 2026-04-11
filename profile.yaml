@@ -25,3 +25,4 @@ element:
   # Upload
   - MAX_FILE_SIZE
   - Upload
+  - PrivacyPolicy

@@ -4,6 +4,9 @@
 
 **added**
 **changed**    
+
+- `templates/phormix/phormix_*.tpl`: id attributes now start with an `id_` to avoid conflict with same named `name` attributes in Browser  
+
 **deprecated**
 **removed**  
 **fixed**  

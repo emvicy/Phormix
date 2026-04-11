@@ -9,7 +9,7 @@
     {/if}
 
     <a id="{$element.attribute.name}"></a>
-    <label for="{$element.attribute.id}" class="form-check-label">
+    <label for="id_{$element.attribute.id}" class="form-check-label">
         {$element.label}
         {if true === isset($element.attribute.required) && true === $element.attribute.required} <span class="text-danger">*</span>{/if}
     </label>
@@ -18,6 +18,8 @@
             {foreach $element.attribute as $attribute => $value}
                 {if false === $value || 'value' === $attribute}
                     {continue}
+                {elseif 'id' === $attribute}
+                    {$attribute}="id_{$value}"
                 {elseif 'name' === $attribute}
                     {$attribute}="{$value}[]"
                 {else}

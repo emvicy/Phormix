@@ -9,21 +9,24 @@
     {/if}
 
     <a id="{$element.attribute.name}"></a>
-    <label for="{$element.attribute.id}{$data.label}" class="form-check-label">
+    <label for="id_{$element.attribute.id}" class="form-check-label">
         {$element.label}
-        {if true === isset($element.attribute.required) && true === $element.attribute.required}<span class="text-danger">*</span>{/if}
+        {if true === isset($element.attribute.required) && true === $element.attribute.required} <span class="text-danger">*</span>{/if}
     </label>
+
+    <input type="hidden" name="{$element.attribute.name}" value="0">
     <input
-            type="hidden"
-            {foreach $element.attribute as $attribute => $value}
-                {if 'id' === $attribute || false === $value}
-                    {continue}
-                {else}
-                    {$attribute}="{$value}"
-                {/if}
-            {/foreach}
-            id="{$element.attribute.id}{$data.label}"
-            class="form-check-input"
+        {foreach $element.attribute as $attribute => $value}
+            {if false === $value}
+                {continue}
+            {elseif 'id' === $attribute}
+                {$attribute}="id_{$value}"
+            {else}
+                {$attribute}="{$value}"
+            {/if}
+        {/foreach}
+        class="form-check-input"
+        {if true === isset($aSent[$element.attribute.name])} checked {/if}
     >
     {if true === isset($element.description)}
         <div class="form-text">

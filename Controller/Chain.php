@@ -65,6 +65,12 @@ class Chain extends _Master
         $oPhormix = $oPhormixChain->setActionOnRoutePath($oDTRoute, $oPhormix);
         $oPhormix = $oPhormixChain->proceed($oPhormix);
 
+        // modify description text of "PrivacyPolicy"
+        if (isset($oPhormix->aConfig['element']['PrivacyPolicy']['description']))
+        {
+            $oPhormix->aConfig['element']['PrivacyPolicy']['description'].= '<br>Privacy policy <a href="https://www.example.com/" target="_blank">https://www.example.com/</a>';
+        }
+
         // show config
         $this->showConfigOnDemand($oPhormix);
 
