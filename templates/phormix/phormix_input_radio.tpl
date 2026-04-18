@@ -25,7 +25,7 @@
                     {if true === isset($aSent[$element.attribute.name]) && $aSent[$element.attribute.name] === $data.value}checked{/if}
             >
             <a id="{$element.attribute.name}"></a>
-            <label for="id_{$element.attribute.id}{$data.label}" class="form-check-label">
+            <label for="id_{$element.attribute.id}{$data.value}" class="form-check-label">
                 {$data.label}
                 {if true === isset($data.description)}
                     <div class="form-text">{$data.description}</div>

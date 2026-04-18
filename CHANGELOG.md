@@ -3,6 +3,9 @@
 ## [Unreleased]
 
 **added**
+
+- `element/Password.yaml`
+
 **changed**    
 
 - `templates/phormix/phormix_*.tpl`: id attributes now start with an `id_` to avoid conflict with same named `name` attributes in Browser  
@@ -10,6 +13,9 @@
 **deprecated**
 **removed**  
 **fixed**  
+
+- `modules/Phormix/templates/phormix/phormix_input_radio.tpl:28`: has to be `$data.value` instead of `$data.label`
+
 **security**
 
 ------------------------------------------------------------------------------------------------------------------------
