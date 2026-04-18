@@ -8,7 +8,7 @@
         {assign var=aSent value=$smarty.session.Phormix.Chain[$smarty.session.Phormix.ChainStep].aData}
     {/if}
 
-    {$element.label} {if true === isset($element.attribute.required) && true === $element.attribute.required}<span class="text-danger">*</span>{/if}
+    {$element.label} {if true === isset($element.attribute.required) && true === $element.attribute.required}{$oPhormix->getDTPhormixSetup()->get_sMandatoryCode()}{/if}
     {foreach $element.filter.validate.expect.value as $data}
         <div class="form-check form-check-inline">
             <input

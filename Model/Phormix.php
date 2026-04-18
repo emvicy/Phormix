@@ -427,6 +427,14 @@ class Phormix
     }
 
     /**
+     * @return \Phormix\DataType\DTPhormixSetup
+     */
+    public function getDTPhormixSetup()
+    {
+        return $this->_oDTPhormixSetup;
+    }
+
+    /**
      * @param bool $bReturn
      * @return false|string|void
      */

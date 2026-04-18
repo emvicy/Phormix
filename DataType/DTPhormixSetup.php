@@ -12,13 +12,19 @@ class DTPhormixSetup
 {
 	use TraitDataType;
 
-	public const DTHASH = 'a5662b2d0c284e610f4c0a3ed33fd8f3';
+	public const DTHASH = '0e09b4c39680a9133d2f0ca79c0b1356';
 
 	/**
 	 * @required true
 	 * @var string
 	 */
 	protected $sLabel;
+
+	/**
+	 * @required true
+	 * @var string
+	 */
+	protected $sMandatoryCode;
 
 	/**
 	 * @required true
@@ -48,6 +54,7 @@ class DTPhormixSetup
 		\MVC\Event::run('DTPhormixSetup.__construct.before', $oDTValue);
 		$aData = $oDTValue->get_mValue();
 		$this->sLabel = null;
+		$this->sMandatoryCode = "<span class='text-danger'>*</span>";
 		$this->sElementDirectory = null;
 		$this->sConfigYamlFile = null;
 		$this->sValidateClass = null;
@@ -83,6 +90,20 @@ class DTPhormixSetup
 		$oDTValue = DTValue::create()->set_mValue($mValue); 
 		\MVC\Event::run('DTPhormixSetup.set_sLabel.before', $oDTValue);
 		$this->sLabel =  (string) $oDTValue->get_mValue() ;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $mValue 
+	 * @return $this
+	 * @throws \ReflectionException
+	 */
+	public function set_sMandatoryCode(string $mValue)
+	{
+		$oDTValue = DTValue::create()->set_mValue($mValue); 
+		\MVC\Event::run('DTPhormixSetup.set_sMandatoryCode.before', $oDTValue);
+		$this->sMandatoryCode =  (string) $oDTValue->get_mValue() ;
 
 		return $this;
 	}
@@ -145,6 +166,18 @@ class DTPhormixSetup
 	 * @return string
 	 * @throws \ReflectionException
 	 */
+	public function get_sMandatoryCode() : string
+	{
+		$oDTValue = DTValue::create()->set_mValue($this->sMandatoryCode); 
+		\MVC\Event::run('DTPhormixSetup.get_sMandatoryCode.before', $oDTValue);
+
+		return $oDTValue->get_mValue();
+	}
+
+	/**
+	 * @return string
+	 * @throws \ReflectionException
+	 */
 	public function get_sElementDirectory() : string
 	{
 		$oDTValue = DTValue::create()->set_mValue($this->sElementDirectory); 
@@ -183,6 +216,14 @@ class DTPhormixSetup
 	public static function getPropertyName_sLabel()
 	{
         return 'sLabel';
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPropertyName_sMandatoryCode()
+	{
+        return 'sMandatoryCode';
 	}
 
 	/**

@@ -11,7 +11,7 @@ attribute:
   pattern: '[\p{L}\p{Zs}]'
   minLength: &element.Salutation.attribute.minLength 2
   maxlength: &element.Salutation.attribute.maxlength 10
-  autofocus: true
+  autofocus: false
   autocomplete: false
   required: true
   disabled: false

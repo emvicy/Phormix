@@ -65,10 +65,17 @@ class Chain extends _Master
         $oPhormix = $oPhormixChain->setActionOnRoutePath($oDTRoute, $oPhormix);
         $oPhormix = $oPhormixChain->proceed($oPhormix);
 
-        // modify description text of "PrivacyPolicy"
-        if (isset($oPhormix->aConfig['element']['PrivacyPolicy']['description']))
-        {
-            $oPhormix->aConfig['element']['PrivacyPolicy']['description'].= '<br>Privacy policy <a href="https://www.example.com/" target="_blank">https://www.example.com/</a>';
+        MODIFY: {
+
+            // set autofocus to Salutation
+            (isset($oPhormix->aConfig['element']['Salutation']['attribute']['autofocus']))
+                ? $oPhormix->aConfig['element']['Salutation']['attribute']['autofocus'] = true
+                : false;
+
+            // modify description text of "PrivacyPolicy"
+            (isset( $oPhormix->aConfig['element']['PrivacyPolicy']['description']))
+                ? $oPhormix->aConfig['element']['PrivacyPolicy']['description'].= '<br>Privacy policy <a href="https://www.example.com/" target="_blank">https://www.example.com/</a>'
+                : false;
         }
 
         // show config

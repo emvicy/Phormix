@@ -45,13 +45,24 @@ class Profile extends _Master
         $oPhormix = Phormix::init(
             DTPhormixSetup::create()
                 ->set_sLabel('This is my formular')
+                ->set_sMandatoryCode("<span class='text-danger'>*</span>")
                 ->set_sConfigYamlFile(Config::get_MVC_MODULES_DIR() . '/Phormix/profile.yaml')
                 ->set_sElementDirectory(Config::get_MVC_MODULES_DIR() . '/Phormix/element/')
                 ->set_sValidateClass('\Phormix\Model\PhormixValidate')
         );
 
-        // modify description text of "PrivacyPolicy"
-        $oPhormix->aConfig['element']['PrivacyPolicy']['description'].= '<br>Privacy policy <a href="https://www.example.com/" target="_blank">https://www.example.com/</a>';
+        MODIFY: {
+
+            // set autofocus to Salutation
+            (isset($oPhormix->aConfig['element']['Salutation']['attribute']['autofocus']))
+                ? $oPhormix->aConfig['element']['Salutation']['attribute']['autofocus'] = true
+                : false;
+
+            // modify description text of "PrivacyPolicy"
+            (isset( $oPhormix->aConfig['element']['PrivacyPolicy']['description']))
+                ? $oPhormix->aConfig['element']['PrivacyPolicy']['description'].= '<br>Privacy policy <a href="https://www.example.com/" target="_blank">https://www.example.com/</a>'
+                : false;
+        }
 
         // run Phormix
         $oPhormix->run();

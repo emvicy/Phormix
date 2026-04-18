@@ -11,7 +11,7 @@
     <a id="{$element.attribute.name}"></a>
     <label for="id_{$element.attribute.id}" class="form-check-label">
         {$element.label}
-        {if true === isset($element.attribute.required) && true === $element.attribute.required}<span class="text-danger">*</span>{/if}
+        {if true === isset($element.attribute.required) && true === $element.attribute.required}{$oPhormix->getDTPhormixSetup()->get_sMandatoryCode()}{/if}
     </label>
     <textarea
             {foreach $element.attribute as $attribute => $value}

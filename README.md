@@ -171,6 +171,12 @@ $oPhormix = Phormix::init(
         ->set_sConfigYamlFile('/path/to/formular.yaml')
         ->set_sElementDirectory('/path/to/element/folder/')
         ->set_sValidateClass('\Phormix\Model\PhormixValidate')
+        
+        // optional; code to mark mandatory values
+        ->set_sMandatoryCode("<span class='text-danger'>*</span>") # outer quotes "double"; inner quotes 'single'
+        
+        // optional; get used in chain demo
+        ->set_sLabel('This is my formular')
 ); 
     
 // run Phormix

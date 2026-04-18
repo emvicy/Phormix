@@ -5,10 +5,14 @@
 **added**
 
 - `element/Password.yaml`
+- `\Phormix\DataType\DTPhormixSetup::$sMandatoryCode`
+  - use `DTPhormixSetup::create()->set_sMandatoryCode('*')` to set
+  - use `{$oPhormix->getDTPhormixSetup()->get_sMandatoryCode()}` in template
 
 **changed**    
 
 - `templates/phormix/phormix_*.tpl`: id attributes now start with an `id_` to avoid conflict with same named `name` attributes in Browser  
+- `element/*.yaml`: all `autofocus` set to `false`
 
 **deprecated**
 **removed**  

@@ -102,6 +102,13 @@ Bootstrap
 
     <!--form-->
     {if false === $oPhormix->bSuccess}
+
+        <!--mandatory-->
+        <span class="float-end">
+            {$oPhormix->getDTPhormixSetup()->get_sMandatoryCode()} mandatory
+        </span>
+        <!--/mandatory-->
+
         <form {$oPhormix->getMarkupFormAttributes()}>
 
             {$oPhormix->getMarkupFormIdentifier()}
