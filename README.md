@@ -401,12 +401,12 @@ _Example Listeners_
 
     'phormix.model.phormix._check.validate.fail' => [
         function(string $sInfo) {
-            \MVC\Log::write($sInfo, 'gettext.log');
+            \MVC\Log::write($sInfo, 'phormix.log');
         }
     ],
     'phormix.model.phormix._check.validate.success' => [
         function(string $sInfo) {
-            \MVC\Log::write($sInfo, 'gettext.log');
+            \MVC\Log::write($sInfo, 'phormix.log');
         }
     ],  
 ]);
