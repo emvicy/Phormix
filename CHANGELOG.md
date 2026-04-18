@@ -3,6 +3,19 @@
 ## [Unreleased]
 
 **added**
+**changed**    
+**deprecated**
+**removed**  
+**fixed**  
+**security**
+
+------------------------------------------------------------------------------------------------------------------------
+
+## [Released]
+
+### [1.2] - 2026-04-18, https://github.com/emvicy/Phormix/releases/tag/1.2
+
+**added**
 
 - Events
   - `phormix.model.phormix._check.validate.fail`
@@ -12,22 +25,16 @@
   - use `DTPhormixSetup::create()->set_sMandatoryCode('*')` to set
   - use `{$oPhormix->getDTPhormixSetup()->get_sMandatoryCode()}` in template
 
-**changed**    
+**changed**
 
-- `templates/phormix/phormix_*.tpl`: id attributes now start with an `id_` to avoid conflict with same named `name` attributes in Browser  
+- `templates/phormix/phormix_*.tpl`: id attributes now start with an `id_` to avoid conflict with same named `name` attributes in Browser
 - `element/*.yaml`: all `autofocus` set to `false`
 
-**deprecated**
-**removed**  
-**fixed**  
+**fixed**
 
 - `modules/Phormix/templates/phormix/phormix_input_radio.tpl:28`: has to be `$data.value` instead of `$data.label`
 
-**security**
-
-------------------------------------------------------------------------------------------------------------------------
-
-## [Released]
+---
 
 ### [1.1] - 2026-04-10, https://github.com/emvicy/Phormix/releases/tag/1.1
 
