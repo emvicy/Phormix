@@ -10,7 +10,7 @@ use MVC\Config;
 use MVC\Convert;
 use MVC\Debug;
 use MVC\Error;
-use MVC\Log;
+use MVC\Event;
 use MVC\Media\Type_Application_json;
 use MVC\Media\Type_Text_plain;
 use Phormix\DataType\DTPhormixSetup;
@@ -174,7 +174,10 @@ class Phormix
                             ? '"' . $sElementIdentifier . '": ' . sprintf($aValue['message']['fail'], $aValue['value'])
                             : '`' . $aElement['label'] . '` is invalid.'
                         ;
-                        Log::write("FAIL\t" . 'Validate ' . $sValidateMethod . '(' . json_encode($aData[$sAttributeName]) . ', ' . json_encode($aValue['value']) . ')' . ' [attribute.name: ' . $sAttributeName . ']', 'phormix.log');
+                        Event::run(
+                            'phormix.model.phormix._check.validate.fail',
+                            "FAIL\t" . 'Validate ' . $sValidateMethod . '(' . json_encode($aData[$sAttributeName]) . ', ' . json_encode($aValue['value']) . ')' . ' [attribute.name: ' . $sAttributeName . ']'
+                        );
 
                         return false;
                     }
@@ -186,12 +189,18 @@ class Phormix
                             ? '"' . $sElementIdentifier . '": ' . sprintf($aValue['message']['success'], $aValue['value'])
                             : '`' . $aElement['label'] . '` is valid.'
                         ;
-                        Log::write("SUCCESS\t" . 'Validate ' . $sValidateMethod . '(' . json_encode($aData[$sAttributeName]) . ', ' . json_encode($aValue['value']) . ')' . ' [attribute.name: ' . $sAttributeName . ']', 'phormix.log');
+                        Event::run(
+                            'phormix.model.phormix._check.validate.success',
+                            "SUCCESS\t" . 'Validate ' . $sValidateMethod . '(' . json_encode($aData[$sAttributeName]) . ', ' . json_encode($aValue['value']) . ')' . ' [attribute.name: ' . $sAttributeName . ']'
+                        );
                     }
                 }
                 else
                 {
-                    Log::write("FAIL\t" . 'Element with label `' . $aElement['label'] . '`is missing "value" in validate config `' . $sKey . '`: ' . json_encode($aValue), 'phormix.log');
+                    Event::run(
+                        'phormix.model.phormix._check.validate.fail',
+                        "FAIL\t" . 'Element with label `' . $aElement['label'] . '`is missing "value" in validate config `' . $sKey . '`: ' . json_encode($aValue)
+                    );
                 }
             }
         }

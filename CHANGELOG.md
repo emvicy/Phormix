@@ -4,6 +4,9 @@
 
 **added**
 
+- Events
+  - `phormix.model.phormix._check.validate.fail`
+  - `phormix.model.phormix._check.validate.success`
 - `element/Password.yaml`
 - `\Phormix\DataType\DTPhormixSetup::$sMandatoryCode`
   - use `DTPhormixSetup::create()->set_sMandatoryCode('*')` to set
