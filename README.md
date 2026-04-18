@@ -15,6 +15,7 @@ for Emvicy2 PHP Framework: https://github.com/emvicy/Emvicy/tree/2.x
     - [3.1. `single-page` formular](#3-1)
     - [3.2. `multi-page` formular (chained forms)](#3-2)
 - [Modify element config](#Modify)
+- [Events](#Events)
 - [Demo](#Demo)
 
 ---
@@ -385,6 +386,30 @@ $oPhormix->aConfig['element']['Upload']['filter']['validate']['filemaxfilesize']
 $oPhormix->run();
 
 [..]
+~~~
+
+---
+
+## Events  <a id="Events"></a>
+
+- `phormix.model.phormix._check.validate.fail`: contains (string) Information about what failed
+- `phormix.model.phormix._check.validate.success`: contains (string) Information about what succeeded
+
+_Example Listeners_  
+~~~php
+\MVC\Event::processBindConfigStack([
+
+    'phormix.model.phormix._check.validate.fail' => [
+        function(string $sInfo) {
+            \MVC\Log::write($sInfo, 'gettext.log');
+        }
+    ],
+    'phormix.model.phormix._check.validate.success' => [
+        function(string $sInfo) {
+            \MVC\Log::write($sInfo, 'gettext.log');
+        }
+    ],  
+]);
 ~~~
 
 ---
