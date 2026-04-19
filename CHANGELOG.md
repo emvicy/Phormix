@@ -3,6 +3,11 @@
 ## [Unreleased]
 
 **added**
+
+- `\Phormix\Model\PhormixValidate::_URL`
+- `element/TermsOfUse.yaml`
+- `element/Website.yaml`
+
 **changed**    
 **deprecated**
 **removed**  

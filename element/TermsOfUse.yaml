@@ -1,0 +1,33 @@
+label: &element.Checkbox.label Terms of Use
+description: Please confirm the Terms of Use by checking this box
+tag: input
+attribute:
+  type: checkbox
+  id: &element.Checkbox.attribute.id TermsOfUse
+  name: *element.Checkbox.attribute.id
+  value: 1
+  title: *element.Checkbox.label
+  placeholder: *element.Checkbox.label
+  pattern: '[\p{Nd}]'
+  minLength: &element.Checkbox.attribute.minLength 1
+  maxlength: &element.Checkbox.attribute.maxlength 1
+  autofocus: false
+  autocomplete: false
+  required: true
+  disabled: false
+filter:
+  validate:
+    minLength:
+      value: *element.Checkbox.attribute.minLength
+      message:
+        fail: Please enter at least %s characters.
+        success: You have specified more than the required minimum amount of %s characters.
+    empty:
+      value: false
+      message:
+        fail: This field can not be empty. Please fill in.
+    regex:
+      value: "/^[\\p{Nd}]+$/u"
+      message:
+        fail: Your entry includes not authorized characters
+        success: Your entry includes only authorized characters.

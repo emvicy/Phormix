@@ -1,0 +1,26 @@
+label: &element.Website.label Website
+#description: &element.Website.description
+tag: input
+attribute:
+  type: email
+  id: &element.Website.attribute.id Website
+  name: *element.Website.attribute.id
+  value: ''
+#  title: *element.Website.description
+  placeholder: *element.Website.label
+  minLength: &element.Website.attribute.minLength 5
+  maxlength: &element.Website.attribute.maxlength 255
+  autofocus: false
+  autocomplete: false
+  required: true
+  disabled: false
+filter:
+  validate:
+    email:
+      value:
+        checkMX: true
+        checkUserExists: false
+      message:
+        fail: The given e-mail address is not valid.
+    empty:
+      value: false

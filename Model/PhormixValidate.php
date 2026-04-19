@@ -303,6 +303,27 @@ class PhormixValidate
 	}
 
     /**
+     * validates url
+     * @param mixed $sFieldValue
+     * @param array $aData
+     * @return bool
+     */
+    public static function _URL(mixed $sFieldValue, array $aData) : bool
+    {
+        if (true === is_array($sFieldValue))
+        {
+            $sFieldValue = current($sFieldValue);
+        }
+
+        if (true === is_string($sFieldValue))
+        {
+            return (bool) filter_var($sFieldValue, FILTER_VALIDATE_URL);
+        }
+
+        return false;
+    }
+
+    /**
      * @param mixed  $sFieldValue
      * @param string $sCaptchaName
      * @return bool
