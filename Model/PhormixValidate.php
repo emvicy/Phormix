@@ -303,12 +303,11 @@ class PhormixValidate
 	}
 
     /**
-     * validates url
-     * @param mixed $sFieldValue
-     * @param array $aData
+     * @param mixed  $sFieldValue
+     * @param string $sPattern
      * @return bool
      */
-    public static function _URL(mixed $sFieldValue, array $aData) : bool
+    public static function _URL(mixed $sFieldValue, string $sPattern) : bool
     {
         if (true === is_array($sFieldValue))
         {

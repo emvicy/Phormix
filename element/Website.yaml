@@ -1,26 +1,25 @@
 label: &element.Website.label Website
-#description: &element.Website.description
+description: &element.Website.description 'URL of the form https://www.example.com'
 tag: input
 attribute:
-  type: email
+  type: url
   id: &element.Website.attribute.id Website
   name: *element.Website.attribute.id
   value: ''
-#  title: *element.Website.description
-  placeholder: *element.Website.label
+  title: *element.Website.description
+  placeholder: "https://www.example.com"
   minLength: &element.Website.attribute.minLength 5
   maxlength: &element.Website.attribute.maxlength 255
+  pattern: &element.Website.attribute.pattern "http.*://.*"
   autofocus: false
   autocomplete: false
   required: true
   disabled: false
 filter:
   validate:
-    email:
-      value:
-        checkMX: true
-        checkUserExists: false
+    url:
+      value: *element.Website.attribute.pattern
       message:
-        fail: The given e-mail address is not valid.
+        fail: The given Website is not a valid URL.
     empty:
       value: false
