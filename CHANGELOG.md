@@ -4,6 +4,9 @@
 
 **added**
 **changed**    
+
+- `element/Password.yaml`: add regex pattern for frontend + backend validation and its description
+
 **deprecated**
 **removed**  
 **fixed**  
