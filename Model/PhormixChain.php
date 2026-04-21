@@ -120,15 +120,15 @@ class PhormixChain
     }
 
     /**
-     * @param \MVC\DataType\DTRoute  $oDTRoute
+     * set explicitly action target (Url path)
+     * example: set $sPath with `$oDTRequestIn->get_path()` to avoid GET Params in action path
+     * @param string                 $sPath
      * @param \Phormix\Model\Phormix $oPhormix
      * @return \Phormix\Model\Phormix
-     * @throws \ReflectionException
      */
-    public function setActionOnRoutePath(DTRoute $oDTRoute, Phormix $oPhormix)
+    public function setActionOnRoutePath(string $sPath, Phormix $oPhormix)
     {
-        // make sure action ist just the route path (no query param "step")
-        $oPhormix->aConfig['form']['action'] = $oDTRoute->get_path();
+        $oPhormix->aConfig['form']['action'] = $sPath;
 
         return $oPhormix;
     }

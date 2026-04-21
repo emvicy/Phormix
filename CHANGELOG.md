@@ -9,6 +9,9 @@
 - `element/Website.yaml`
 
 **changed**    
+
+- `\Phormix\Model\PhormixChain::setActionOnRoutePath`: param#1 from `DTRoute $oDTRoute` => to => `string $sPath`
+
 **deprecated**
 **removed**  
 **fixed**  

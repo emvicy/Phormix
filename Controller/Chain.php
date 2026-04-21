@@ -62,7 +62,7 @@ class Chain extends _Master
 
         $oPhormixChain = new PhormixChain($oDTRequestIn, $oDTPhormixChain);
         $oPhormix = $oPhormixChain->getPhormix();
-        $oPhormix = $oPhormixChain->setActionOnRoutePath($oDTRoute, $oPhormix);
+        $oPhormix = $oPhormixChain->setActionOnRoutePath($oDTRequestIn->get_path(), $oPhormix);
         $oPhormix = $oPhormixChain->proceed($oPhormix);
 
         MODIFY: {
