@@ -3,26 +3,33 @@
 ## [Unreleased]
 
 **added**
-
-- `\Phormix\Model\PhormixValidate::_URL`
-- `element/TermsOfUse.yaml`
-- `element/Website.yaml`
-
 **changed**    
-
-- `\Phormix\Model\PhormixChain::setActionOnRoutePath`: param#1 from `DTRoute $oDTRoute` => to => `string $sPath`
-
 **deprecated**
 **removed**  
 **fixed**  
-
-- `\Phormix\Model\PhormixChain::getStep`/`\Phormix\Model\PhormixChain::getPhormix`: possible to call steps that do not exist; Fix: prevent depending on chain array size 
-
 **security**
 
 ------------------------------------------------------------------------------------------------------------------------
 
 ## [Released]
+
+### [1.3] - 2026-04-21, https://github.com/emvicy/Phormix/releases/tag/1.3
+
+**added**
+
+- `\Phormix\Model\PhormixValidate::_URL`
+- `element/TermsOfUse.yaml`
+- `element/Website.yaml`
+
+**changed**
+
+- `\Phormix\Model\PhormixChain::setActionOnRoutePath`: param#1 from `DTRoute $oDTRoute` => to => `string $sPath`
+
+**fixed**
+
+- `\Phormix\Model\PhormixChain::getStep`/`\Phormix\Model\PhormixChain::getPhormix`: possible to call steps that do not exist; Fix: prevent depending on chain array size
+
+---
 
 ### [1.2] - 2026-04-18, https://github.com/emvicy/Phormix/releases/tag/1.2
 
