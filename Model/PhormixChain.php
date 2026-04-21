@@ -70,10 +70,21 @@ class PhormixChain
 
     /**
      * @return mixed
+     * @throws \ReflectionException
      */
     public function getStep()
     {
         $this->setStep();
+
+        if ($_SESSION[$this->_sPrefix]['ChainStep'] < 0)
+        {
+            $_SESSION[$this->_sPrefix]['ChainStep'] = 0;
+        }
+        if ($_SESSION[$this->_sPrefix]['ChainStep'] > count($this->oDTPhormixChain->get_aDTPhormixSetup()) )
+        {
+            $_SESSION[$this->_sPrefix]['ChainStep'] = count($this->oDTPhormixChain->get_aDTPhormixSetup()) - 2;
+        }
+
         return $_SESSION[$this->_sPrefix]['ChainStep'];
     }
 
@@ -107,6 +118,7 @@ class PhormixChain
      */
     public function getPhormix()
     {
+        $this->getStep();
         $oPhormix = Phormix::init(
             DTPhormixSetup::create()
                 ->set_sConfigYamlFile($this->oDTPhormixChain->get_aDTPhormixSetup()[$_SESSION[$this->_sPrefix]['ChainStep']]->get_sConfigYamlFile())

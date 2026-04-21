@@ -15,6 +15,9 @@
 **deprecated**
 **removed**  
 **fixed**  
+
+- `\Phormix\Model\PhormixChain::getStep`/`\Phormix\Model\PhormixChain::getPhormix`: possible to call steps that do not exist; Fix: prevent depending on chain array size 
+
 **security**
 
 ------------------------------------------------------------------------------------------------------------------------
