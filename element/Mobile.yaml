@@ -10,6 +10,7 @@ attribute:
   placeholder: *element.Mobile.label
   minLength: &element.Mobile.attribute.minLength 1
   maxlength: &element.Mobile.attribute.maxlength 25
+  pattern: "^[\\+0][\\d\\s.]{3,25}$"
   autofocus: false
   autocomplete: false
   required: false
@@ -26,7 +27,7 @@ filter:
       message:
         fail: This field can not be empty. Please fill in.
     regex:
-      value: "/^[\\p{Nd}\\p{Zs}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+      value: "/^[\\+0][\\d\\s.]{3,25}$/u"
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.

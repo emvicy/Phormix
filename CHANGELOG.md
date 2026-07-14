@@ -4,9 +4,6 @@
 
 **added**
 **changed**    
-
-- `element/Password.yaml`: add regex pattern for frontend + backend validation and its description
-
 **deprecated**
 **removed**  
 **fixed**  
@@ -15,6 +12,19 @@
 ------------------------------------------------------------------------------------------------------------------------
 
 ## [Released]
+
+### [1.3.1] - 2026-07-14, https://github.com/emvicy/Phormix/releases/tag/1.3.1
+
+**changed**
+
+- `element/Telephone|Fax|Mobile.yaml`: regex pattern for frontend + backend validation
+- `element/Password.yaml`: add regex pattern for frontend + backend validation and its description
+
+**fixed**
+
+- `\Phormix\Model\PhormixValidate::_REGEX`: if value is empty, regex on empty makes no sense; return true
+
+---
 
 ### [1.3] - 2026-04-21, https://github.com/emvicy/Phormix/releases/tag/1.3
 

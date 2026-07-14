@@ -115,6 +115,12 @@ class PhormixValidate
             $sFieldValue = current($sFieldValue);
         }
 
+        // no value, no regex, no fail
+        if (true === empty($sFieldValue))
+        {
+            return true;
+        }
+
         if (true === is_string($sFieldValue))
         {
             return (bool) preg_match($sPattern, $sFieldValue);

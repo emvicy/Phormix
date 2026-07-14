@@ -1,5 +1,5 @@
 label: &element.Fax.label Fax
-description:
+description: Please make sure your number begins with a `0` or a `+`
 tag: input
 attribute:
   type: text
@@ -10,6 +10,7 @@ attribute:
   placeholder: *element.Fax.label
   minLength: &element.Fax.attribute.minLength 3
   maxlength: &element.Fax.attribute.maxlength 25
+  pattern: "^[\\+0][\\d\\s.]{3,25}$"
   autofocus: false
   autocomplete: false
   required: false
@@ -26,7 +27,7 @@ filter:
       message:
         fail: This field can not be empty. Please fill in.
     regex:
-      value: "/^[\\p{Nd}\\p{Zs}\\p{Pd}\\p{Ps}\\p{Pe}\\p{Pc}.,]+$/u"
+      value: "/^[\\+0][\\d\\s.]{3,25}$/u"
       message:
         fail: Your entry includes not authorized characters
         success: Your entry includes only authorized characters.
