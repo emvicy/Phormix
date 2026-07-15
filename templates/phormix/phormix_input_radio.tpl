@@ -15,10 +15,21 @@
                     {foreach $element.attribute as $attribute => $value}
                         {if 'id' === $attribute || 'value' === $attribute || false === $value}
                             {continue}
+                        {elseif 'autofocus' === $attribute}{* skip multiple autofocus attributes *}
+                            {if true === isset($bAutofocus) && true === $bAutofocus}
+                                {continue}
+                            {elseif true === $value}
+                                {$attribute}
+                            {/if}
                         {elseif true === $value}
                             {$attribute}
                         {else}
                             {$attribute}="{$value}"
+                        {/if}
+
+                        {* detect autofocus attribute *}
+                        {if 'autofocus' === $attribute}
+                            {assign var=bAutofocus value=true}
                         {/if}
                     {/foreach}
                     id="id_{$element.attribute.id}{$data.value}"

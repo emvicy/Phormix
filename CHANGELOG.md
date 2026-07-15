@@ -17,6 +17,7 @@
 
 **changed**
 
+- `templates/phormix/phormix_input_radio.tpl`: skip multiple autofocus attributes for type radio
 - `templates/phormix/phormix_*.tpl`: If an attribute value (bool) is true, then include only the attribute in the HTML tag context – without the value (e.g. autofocus; instead of autofocus="1")
 
 ---
