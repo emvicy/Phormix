@@ -19,6 +19,8 @@
                     {continue}
                 {elseif 'id' === $attribute}
                     {$attribute}="id_{$value}"
+                {elseif true === $value}
+                    {$attribute}
                 {else}
                     {$attribute}="{$value}"
                 {/if}

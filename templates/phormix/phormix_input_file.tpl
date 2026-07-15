@@ -22,6 +22,8 @@
                     {$attribute}="id_{$value}"
                 {elseif 'name' === $attribute}
                     {$attribute}="{$value}[]"
+                {elseif true === $value}
+                    {$attribute}
                 {else}
                     {$attribute}="{$value}"
                 {/if}

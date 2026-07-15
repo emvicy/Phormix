@@ -13,6 +13,14 @@
 
 ## [Released]
 
+### [1.3.2] - 2026-07-15, https://github.com/emvicy/Phormix/releases/tag/1.3.2
+
+**changed**
+
+- `templates/phormix/phormix_*.tpl`: If an attribute value (bool) is true, then include only the attribute in the HTML tag context – without the value (e.g. autofocus; instead of autofocus="1")
+
+---
+
 ### [1.3.1] - 2026-07-14, https://github.com/emvicy/Phormix/releases/tag/1.3.1
 
 **changed**

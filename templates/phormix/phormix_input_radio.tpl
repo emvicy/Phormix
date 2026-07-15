@@ -15,6 +15,8 @@
                     {foreach $element.attribute as $attribute => $value}
                         {if 'id' === $attribute || 'value' === $attribute || false === $value}
                             {continue}
+                        {elseif true === $value}
+                            {$attribute}
                         {else}
                             {$attribute}="{$value}"
                         {/if}
